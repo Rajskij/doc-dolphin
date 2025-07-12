@@ -1,0 +1,45 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Vite
+dist/
+dist-ssr/
+*.local
+
+# Environment variables
+.env
+
+# MongoDB
+/data/db/
+*.ns
+*.0
+*.1
+
+# IDE
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Debug logs
+debug.log
+
+# Backend (Express/Node)
+*.js.map
+
+# Frontend (Vite)
+.cache/
+.temp/
