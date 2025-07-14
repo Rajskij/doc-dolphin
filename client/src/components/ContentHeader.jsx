@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator"
 
 function ContentHeader({ navHeight }) {
     return (
-        <div className={`flex sticky border-b items-center bg-gray-100 gap-2 p-4 top-[${navHeight}px]`} >
+        <div className={`flex sticky border-b items-center gap-2 p-4 top-[${navHeight}px]`} >
             <SidebarTrigger className="-ml-1" />
             <Separator
                 orientation="vertical"

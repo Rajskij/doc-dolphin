@@ -22,6 +22,7 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarInset,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -155,7 +156,8 @@ export function AppSidebar({
   ...props
 }) {
   return (
-    <Sidebar variant="inset" collapsible="icon" {...props} className="shrink-0">
+    // inset or floating add gap from all sides
+    <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
