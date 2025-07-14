@@ -18,8 +18,8 @@ function Navbar({ navbarRef }) {
         navigate('/login');
     }
     return (
-        <header ref={navbarRef} className='sticky top-0 z-10 text-white p-4 bg-background'>
-            <nav className="flex justify-between content-center text-foreground">
+        <header ref={navbarRef} className='flex justify-center w-full sticky top-0 z-10 text-white p-4 bg-green-300'>
+            <nav className="flex justify-between content-center text-foreground max-w-300 w-full px-3">
                 <Link to='/' className="flex content-center">
                     <GiDolphin className="text-3xl mr-4" />
                     <h1 className='text-xl font-bold'>Doc Dolphin</h1>

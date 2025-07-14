@@ -16,7 +16,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
-        <div className='max-w-300 justify-self-center'>
+        {/* <div className='flex justify-center'> */}
           <MainLayout user={user} >
             <Routes>
               <Route path='/' element={<Home />} />
@@ -27,7 +27,7 @@ function App() {
               <Route path='/*' element={<h1>404 Not found</h1>} />
             </Routes>
           </MainLayout>
-        </div>
+        {/* </div> */}
       </Router>
     </ThemeProvider>
   )
