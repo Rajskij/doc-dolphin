@@ -17,16 +17,16 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
         {/* <div className='flex justify-center'> */}
-          <MainLayout user={user} >
-            <Routes>
+          <Routes>
+            <Route element={<MainLayout user={user} />}>
               <Route path='/' element={<Home />} />
               <Route path='/users' element={<Users />} />
               <Route path='/about' element={<About />} />
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
-              <Route path='/*' element={<h1>404 Not found</h1>} />
-            </Routes>
-          </MainLayout>
+            </Route>
+            <Route path='/*' element={<h1>404 Not found</h1>} />
+          </Routes>
         {/* </div> */}
       </Router>
     </ThemeProvider>

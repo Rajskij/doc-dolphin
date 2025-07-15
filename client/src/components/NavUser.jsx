@@ -1,13 +1,6 @@
 "use client"
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react"
+import { ChevronsUpDown } from "lucide-react"
 
 import {
   Avatar,
@@ -29,12 +22,11 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import UserAction from "./UserAction"
 
-export function NavUser({
-  user
-}) {
+export function NavUser({ user }) {
   const { isMobile } = useSidebar()
-  const avatarName = user.name[0]?.toUpperCase() | 'U';
+  const avatarName = user.name[0]?.toUpperCase();
 
   return (
     <SidebarMenu>
@@ -73,21 +65,7 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
+            <UserAction />
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

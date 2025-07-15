@@ -31,7 +31,7 @@ export function AuthContextProvider({ children }) {
 
     return (
         <AuthContext.Provider value={{ ...state, dispatch, authIsReady }}>
-            {children}
+            {authIsReady && children}
         </AuthContext.Provider>
     )
 }

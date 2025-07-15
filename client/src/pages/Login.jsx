@@ -13,7 +13,7 @@ function Login() {
 
     useEffect(() => {
         if (user) {
-            navigate('/about');
+            navigate('/');
         }
     }, [user]);
 

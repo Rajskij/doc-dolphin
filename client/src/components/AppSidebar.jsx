@@ -16,7 +16,7 @@ import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher"
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/NavUser"
 import {
   Sidebar,
   SidebarContent,
