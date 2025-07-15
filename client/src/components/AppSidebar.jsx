@@ -157,14 +157,12 @@ export function AppSidebar({
 }) {
   return (
     // inset or floating add gap from all sides
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} >
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavSecondary items={data.navSecondary} className="mt-0" />
       </SidebarFooter>
     </Sidebar>
   );

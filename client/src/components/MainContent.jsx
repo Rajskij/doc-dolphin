@@ -1,9 +1,7 @@
 function MainContent({ children }) {
     return (
-        <main className="p-4 bg-white overflow-y-auto">
-            <div className="space-y-4">
-                {children}
-            </div>
+        <main className="p-4 bg-background rounded-xl">
+            {children}
         </main>
     );
 }

@@ -10,34 +10,53 @@ const isStaticWidth = true;
 
 function MainLayout({ children, user }) {
     const [navHeight, setNavHight] = useState(62);
-    const [isFullWidth, setIsFullWidth] = useState();
+    const [isStaticWidth, setIsFullWidth] = useState(true);
     const navbarRef = useRef();
 
     useEffect(() => {
         const height = navbarRef.current.offsetHeight;
-        setNavHight(height + 2)
+        setNavHight(height)
     }, [])
 
     // style={{ maxWidth: `${LAYOUT_WIDTH}` }}
     return (
-        <div className="flex flex-col items-center bg-sidebar ">
-            <Navbar navbarRef={navbarRef} isFullWidth={isFullWidth} setWidth={setIsFullWidth}/>
+        <SidebarProvider className="flex flex-col items-center bg-sidebar ">
+            <Navbar navbarRef={navbarRef} isStaticWidth={isStaticWidth} setWidth={setIsFullWidth} />
             {/* Can remove div below leter if you Ok with one collor */}
             {/* <div className="flex justify-center w-full"> */}
-            <SidebarProvider className={`flex justify-center ${isFullWidth ? 'max-w-7xl' : 'w-full'}`}>
+            <div className={`flex justify-center ${isStaticWidth && 'max-w-7xl'} w-full`}>
                 {/* {user && <Sidebar navHeight={navHeight} />} */}
-                {user && <AppSidebar navHeight={navHeight} style={{ top: `${navHeight}px` }} />}
+                {user && <AppSidebar variant="inset" style={{ top: `${navHeight}px` }} />}
                 {/* Main Content Area */}
-                <SidebarInset className='border-t-black '>
-                    {user && <ContentHeader navHeight={navHeight} />}
-                    <MainContent>
-                        {children}
-                    </MainContent>
+                <SidebarInset className='mx-4 top-70px'>
+                        {user && <ContentHeader navHeight={navHeight} />}
+                        <MainContent>{children}</MainContent>
                 </SidebarInset>
-            </SidebarProvider>
+            </div>
             {/* </div> */}
-        </div>
+        </SidebarProvider>
     );
 }
 
 export default MainLayout;
+
+//  <div className="flex flex-col items-center bg-sidebar ">
+//             <Navbar navbarRef={navbarRef} isStaticWidth={isStaticWidth} setWidth={setIsFullWidth} />
+//             <SidebarProvider>
+//             {/* Can remove div below leter if you Ok with one collor */}
+//             {/* <div className="flex justify-center w-full"> */}
+//             <div className={`flex justify-center ${isStaticWidth && 'max-w-7xl'} w-full h-screen mb-4`}>
+//                 {/* {user && <Sidebar navHeight={navHeight} />} */}
+//                 {user && <AppSidebar variant="inset" navHeight={navHeight} style={{ top: `${navHeight}px` }} />}
+//                 {/* Main Content Area */}
+//                 <div className="w-full">
+//                     {user && <ContentHeader navHeight={navHeight} />}
+//                     <SidebarInset className='h-full'>
+//                         <MainContent>
+//                             {children}
+//                         </MainContent>
+//                     </SidebarInset>
+//                 </div>
+//             </div>
+//     </SidebarProvider>
+//         </div>
