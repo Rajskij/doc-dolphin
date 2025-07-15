@@ -9,6 +9,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import MainLayout from './layout/MainLayout';
 import { ThemeProvider } from './context/ThemProvider';
+import { LoginForm } from './components/LoginForm';
 
 function App() {
   const { user } = useAuthContext();

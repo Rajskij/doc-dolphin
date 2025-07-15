@@ -6,14 +6,14 @@ export function useSignup() {
     const [isLoading, setIsLoading] = useState();
     const [error, setError] = useState();
 
-    async function signup(email, password) {
+    async function signup(fullName, email, password) {
         setError(null);
         setIsLoading(true);
 
         try {
-            const response = await fetch('/api/users/signup', {
+            const response = await fetch('http://localhost:8000/api/users/signup', {
                 method: 'POST',
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ fullName, email, password }),
                 headers: { 'Content-Type': 'application/json' }
             });
             const json = await response.json();
@@ -26,10 +26,12 @@ export function useSignup() {
             } else {
                 setError(json.error);
             }
-            setIsLoading(false);
         } catch (err) {
             console.log(err.message);
+            setError(err.message);
             throw err;
+        } finally {
+            setIsLoading(false);            
         }
     }
 

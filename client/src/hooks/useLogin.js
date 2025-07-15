@@ -9,9 +9,9 @@ export function useLogin() {
     async function login(email, password) {
         setError(null);
         setIsLoading(true);
-
+        
         try {
-            const response = await fetch('/api/users/login', {
+            const response = await fetch('http://localhost:8000/api/users/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
                 headers: { 'Content-Type': 'application/json' }
