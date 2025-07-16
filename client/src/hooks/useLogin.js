@@ -23,13 +23,14 @@ export function useLogin() {
                 localStorage.setItem('user', JSON.stringify(json));
                 // set context
                 dispatch({ type: 'LOGIN', payload: json });
-            } else {
                 setError(json.error);
             }
-            setIsLoading(false);
         } catch (err) {
+            setError(err.message);
             console.log(err.message);
             throw err;
+        } finally {
+            setIsLoading(false);
         }
     }
 

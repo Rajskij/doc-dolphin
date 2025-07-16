@@ -4,7 +4,7 @@ function Users() {
     const [users, setUsers] = useState();
 
     useEffect(() => {
-        async function getUsers(params) {
+        async function getUsers() {
             const result = await fetch('http://localhost:8000/api/users');
             const json = await result.json();
             

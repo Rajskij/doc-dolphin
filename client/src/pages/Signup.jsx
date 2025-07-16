@@ -25,7 +25,7 @@ function Signup() {
     }
 
     return (
-        <div className="bg-muted flex min-h-vh flex-col items-center justify-center gap-6 p-6 md:p-10">
+        <div className="flex min-h-vh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div className="flex items-center w-full max-w-sm flex-col gap-6">
                 <SignupForm />
             </div>

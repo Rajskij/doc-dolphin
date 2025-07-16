@@ -12,6 +12,7 @@ dist-ssr/
 
 # Environment variables
 .env
+vision-api-key.json
 
 # MongoDB
 /data/db/

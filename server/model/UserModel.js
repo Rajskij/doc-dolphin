@@ -4,6 +4,10 @@ import validator from 'validator';
 import LoginError from '../Error/LoginError.js';
 
 const schema = new mongoose.Schema({
+    fullName: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
@@ -15,8 +19,8 @@ const schema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-schema.statics.signup = async function (email, password) {
-    if (!email || !password) {
+schema.statics.signup = async function (fullName, email, password) {
+    if (!fullName || !email || !password) {
         throw Error('All fields must be filled');
     }
     // ⚠️⚠️⚠️ WARNING: Arrow functions don't bind 'this'! ⚠️⚠️⚠️
@@ -37,6 +41,7 @@ schema.statics.signup = async function (email, password) {
     const saltRounds = 10;
     const encryptedPass = await bcrypt.hash(password, saltRounds);
     const result = await this.create({
+        fullName,
         email,
         password: encryptedPass
     });

@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/AppSidebar";
+import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import ContentHeader from "@/components/ContentHeader";
 import MainContent from "@/components/MainContent";
 import Navbar from "@/components/Navbar";
@@ -16,17 +16,16 @@ function MainLayout({ user }) {
         setNavHight(height)
     }, [])
 
-    // style={{ maxWidth: `${LAYOUT_WIDTH}` }}
     return (
         <SidebarProvider className="flex flex-col items-center bg-sidebar">
             <Navbar navbarRef={navbarRef} isStaticWidth={isStaticWidth} setWidth={setIsFullWidth} />
             <div className={`flex justify-center ${isStaticWidth && 'max-w-7xl'} w-full`}>
                 {user && <AppSidebar variant="inset" style={{ top: `${navHeight}px` }} />}
                 {/* Main Content Area */}
-                <SidebarInset className='mx-4 mb-4 bg-muted rounded-xl'>
+                <SidebarInset className='mx-4 mb-4 bg-background rounded-xl'>
                     {user && <ContentHeader navHeight={navHeight} />}
                     <MainContent>
-                        <Outlet />
+                        <Outlet/>
                     </MainContent>
                 </SidebarInset>
             </div>

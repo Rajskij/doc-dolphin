@@ -11,12 +11,12 @@ async function getUsers(req, res) {
 }
 
 async function createUser(req, res) {
-    const { email, password } = req.body;
+    const { fullName, email, password } = req.body;
     try {
-        const user = await User.signup(email, password);
+        const user = await User.signup(fullName, email, password);
         const token = createToken(user._id);
 
-        res.status(201).json({ email, token });
+        res.status(201).json({ fullName, email, token });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -25,10 +25,10 @@ async function createUser(req, res) {
 async function loginUser(req, res) {
     const { email, password } = req.body;
     try {
-        const user = await User.login(email, password);
-        const token = createToken(user._id);
+        const { _id, fullName } = await User.login(email, password);
+        const token = createToken('_id');
 
-        res.status(200).json({ email, token });
+        res.status(200).json({ fullName, email, token });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

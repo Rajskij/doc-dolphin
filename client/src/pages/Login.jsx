@@ -5,7 +5,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
 import { GalleryVerticalEnd } from "lucide-react"
 import { LoginForm } from "@/components/LoginForm"
-import Logo from "@/components/Logo";
 
 function Login() {
     const { user, authIsReady } = useAuthContext();
@@ -22,7 +21,7 @@ function Login() {
     }
 
     return (
-        <div className="bg-muted flex min-h-vh flex-col items-center justify-center gap-6 p-6 md:p-10">
+        <div className="flex min-h-vh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div className="flex items-center w-full max-w-sm flex-col gap-6">
                 <LoginForm />
             </div>
