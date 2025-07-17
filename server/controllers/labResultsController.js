@@ -1,7 +1,7 @@
 import ollama from 'ollama'
 import { optimizeImage } from '../utils/dataOptimization.js';
 import { PassThrough } from 'stream';
-import {MEDICAL_PROMPT_1} from '../utils/prompt.js'
+import { MEDICAL_PROMPT, MEDICAL_PROMPT_GENERAL } from '../utils/prompt.js'
 
 async function parseMedicalTest(req, res) {
     if (!req.file) {
@@ -23,7 +23,8 @@ async function parseMedicalTest(req, res) {
         const base64Image = optimizedImg.toString('base64');
 
         const llmResponse = await ollama.chat({
-            model: 'llama3.2-vision:11b-instruct-q4_K_M',
+            // llama3.2-vision:11b-instruct-q4_K_M
+            model: 'llama3.2-vision:latest',
             messages: [
                 {
                     role: 'system',
@@ -31,7 +32,7 @@ async function parseMedicalTest(req, res) {
                 },
                 {
                     role: 'user',
-                    content: MEDICAL_PROMPT_1,
+                    content: MEDICAL_PROMPT_GENERAL,
                     images: [base64Image]
                 }],
             stream: true  // Enable streaming

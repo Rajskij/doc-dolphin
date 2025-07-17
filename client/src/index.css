@@ -2,6 +2,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+.markdown table {
+  @apply table-auto w-full border-collapse border border-gray-300;
+}
+.markdown th,
+.markdown td {
+  @apply border border-gray-300 px-4 py-2 text-left;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

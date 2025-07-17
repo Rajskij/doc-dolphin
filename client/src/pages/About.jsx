@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { FileUpload } from "@/components/lab-results-analyzer/FileUpload";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
     Card,
     CardTitle,
@@ -8,6 +10,7 @@ import {
 function About() {
     const [output, setOutput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isFirstChunk, setIsFirstChunk] = useState(true);
 
     async function handleSubmit(file) {
         setIsLoading(true);
@@ -31,6 +34,12 @@ function About() {
             if (done) {
                 break;
             }
+
+            if (isFirstChunk) {
+                setIsLoading(false);
+                setIsFirstChunk(false);
+            }
+
             console.log('Received value: ', value);
             const jsonData = JSON.parse(value);
             setOutput(prev => prev + jsonData.message.content); // Stream text directly
@@ -41,13 +50,18 @@ function About() {
         <>
             <Card className="@container/card px-4 mb-4">
                 <CardTitle>
-                    <h1>Upload your test result</h1>
+                    <h1 className="text-primary">Upload your test result</h1>
                 </CardTitle>
                 <FileUpload handleSubmit={handleSubmit} />
             </Card>
-            <Card className="@container/card px-4 mb-4">
-                <h1>Test Data</h1>
-                <p>{output}</p>
+            <Card className="@container/card min-h-20 px-4 mb-4">
+                <CardTitle>
+                    <h1 className="text-xl text-primary">Results: </h1>
+                </CardTitle>
+                {isLoading && <h2>Loading...</h2>}
+                <div className='prose prose-sm md:prose-base prose-slate'>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
+                </div>
             </Card>
         </>
     );
