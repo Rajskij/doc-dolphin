@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
-import userRoute from './routes/users.js';
-import testRoute from './routes/labResults.js';
+import userRoute from './routes/usersRoute.js';
+import testRoute from './routes/labResultsRoute.js';
 
 import cors from 'cors';
 
@@ -12,8 +12,8 @@ await mongoose.connect(process.env.MONGO_URI);
 app.use(express.json());
 app.use(cors());
 
-app.use('/api', userRoute);
-app.use('/documents', testRoute);
+app.use('/api/users', userRoute);
+app.use('/api/results', testRoute);
 
 app.use((err, req, res, next) => {
     const { status, message } = err;

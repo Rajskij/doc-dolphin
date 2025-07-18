@@ -5,7 +5,7 @@ async function fetchLabResults(formData, setIsLoading, setError, setOutput, abor
 
     try {
         const start = Date.now();
-        const response = await fetch(`${BASE_URL}/documents`, {
+        const response = await fetch(`${BASE_URL}/results`, {
             method: 'POST',
             body: formData,
             signal: abortRef.current.signal
@@ -47,4 +47,22 @@ async function fetchLabResults(formData, setIsLoading, setError, setOutput, abor
     }
 }
 
-export { fetchLabResults };
+async function createResult(userId, setIsLoading, setError) {
+    try {
+        setIsLoading(true);
+        const response = await fetch(`${BASE_URL}/results/${userId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) {
+            setError(response.error);
+        }
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setIsLoading(false);
+    }
+}
+
+export { fetchLabResults, createResult };

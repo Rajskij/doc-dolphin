@@ -26,11 +26,6 @@ async function rotate(imageBuffers, width) {
                 .rotate(90)
                 .resize({ width })
                 .toBuffer();
-
-            // return {
-            //     buffer: rotatedBuffer,
-            //     metadata: await sharp(rotatedBuffer).metadata()
-            // };
         })
     );
 }

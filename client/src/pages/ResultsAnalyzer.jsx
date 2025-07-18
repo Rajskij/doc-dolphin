@@ -1,4 +1,7 @@
 import { useRef, useState } from "react";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { fetchLabResults, createResult } from "@/api/client";
+
 import { FileUpload } from "@/components/lab-results-analyzer/FileUpload";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -10,12 +13,15 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { fetchLabResults } from "@/api/client";
+
+const INFO = 'Upload your medical tests to see insights'
 
 function About() {
-    const [output, setOutput] = useState('Upload your medical tests to see insights');
+    const [output, setOutput] = useState(INFO);
     const [isLoading, setIsLoading] = useState(false);
+    const [isStreaming, setIsStreaming] = useState(false);
     const [error, setError] = useState(null);
+    const { user } = useAuthContext();
     const abortRef = useRef();
 
     async function handleSubmit(files) {
@@ -36,10 +42,14 @@ function About() {
     function handleAbort() {
         if (abortRef.current) {
             // set error message
-            abortRef.current.error = 'Process stopped by user';
+            abortRef.current.error = 'Processing was stopped by the User';
             // abort request
             abortRef.current.abort();
         }
+    }
+
+    function handleSave() {
+        createResult(user.id, setIsLoading, setError);
     }
 
     return (
@@ -56,18 +66,27 @@ function About() {
                         <h1 className="text-primary">Test Summery Report</h1>
                     </CardTitle>
                     <CardAction>
-                        <Button variant='secondary' className='mr-4' onClick={handleAbort}>
+                        <Button variant='secondary'
+                            className='mr-4'
+                            onClick={handleAbort}
+                            disabled={isLoading || isStreaming}
+                        >
                             Stop
                         </Button>
-                        <Button>Save</Button>
+                        <Button
+                            onClick={handleSave}
+                            disabled={output === INFO || isStreaming}
+                        >
+                            Save
+                        </Button>
                     </CardAction>
                 </CardHeader>
                 <Separator />
 
                 <CardAction className='px-6'>
                     {isLoading && <h4>Loading...</h4>}
-                    {error && <h2 className="text-red-400">{error}</h2>}
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
+                    {error && <><br /><h2 className="text-red-400">{error}</h2></>}
                 </CardAction>
             </Card>
         </>

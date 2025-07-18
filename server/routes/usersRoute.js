@@ -3,12 +3,8 @@ import { getUsers, createUser, loginUser } from '../controllers/userController.j
 
 const routes = express.Router();
 
-routes
-    .route('/users')
-    .get(getUsers)
-
-routes.post('/users/signup', createUser);
-
-routes.post('/users/login', loginUser);
+routes.get('/', getUsers)
+routes.post('/signup', createUser);
+routes.post('/login', loginUser);
 
 export default routes;

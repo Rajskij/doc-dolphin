@@ -70,7 +70,7 @@ export function FileUpload({ handleSubmit }) {
                 <InfiniteProgress status={file.status}>
                   Content
                 </InfiniteProgress>
-                  // <div className="aspect-video animate-pulse bg-black/20" />
+                // <div className="aspect-video animate-pulse bg-black/20" />
               )}
               <div className="flex items-center justify-between p-2 pl-4">
                 <div className="min-w-0">
@@ -82,7 +82,7 @@ export function FileUpload({ handleSubmit }) {
                 <DropzoneRemoveFile
                   variant="ghost"
                   className="shrink-0 hover:outline"
-                  // onClick={() => setTestFiles(prev => prev.filter(p => p === file))}
+                // onClick={() => setTestFiles(prev => prev.filter(p => p === file))}
                 >
                   <Trash2Icon className="size-4" />
                 </DropzoneRemoveFile>
@@ -91,7 +91,12 @@ export function FileUpload({ handleSubmit }) {
           ))}
         </DropzoneFileList>
         <div>
-          <Button onClick={() => handleSubmit(dropzone.fileStatuses.map(status => status.file))} disabled={dropzone.fileStatuses.length < 1} >Submit</Button>
+          <Button 
+            onClick={() => handleSubmit(dropzone.fileStatuses.map(status => status.file))} 
+            disabled={dropzone.fileStatuses.length < 1} 
+          >
+            Analyze
+          </Button>
         </div>
       </Dropzone>
     </div>
