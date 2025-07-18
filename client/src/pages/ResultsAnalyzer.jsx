@@ -49,7 +49,7 @@ function About() {
     }
 
     function handleSave() {
-        createResult(user.id, setIsLoading, setError, output);
+        createResult(user.id, setError, output);
     }
 
     return (
@@ -58,7 +58,7 @@ function About() {
                 <CardTitle>
                     <h1 className="text-primary">Upload your test result</h1>
                 </CardTitle>
-                <FileUpload handleSubmit={handleSubmit} />
+                <FileUpload handleSubmit={handleSubmit} output={output} isStreaming={isStreaming} />
             </Card>
             <Card className="@container/card min-h-100">
                 <CardHeader className='flex items-center justify-between'>
@@ -86,6 +86,7 @@ function About() {
                 <CardAction className='px-6'>
                     {output === '' && <h4>Loading...</h4>}
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
+                    {/* <p>{output}</p> */}
                     {error && <><br /><h2 className="text-red-400">{error}</h2></>}
                 </CardAction>
             </Card>

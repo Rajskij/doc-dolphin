@@ -13,7 +13,7 @@ function ContentHeader({ navHeight }) {
     console.log(navHeight);
 
     return (
-            <div className={`flex sticky border-b items-center gap-2 px-4 py-2 bg-background rounded-t-xl z-10`}  style={{ top: `${navHeight}px` }} >
+            <div className={`flex sticky items-center gap-2 px-4 py-2 bg-background shadow-sm rounded-t-xl z-10`}  style={{ top: `${navHeight}px` }} >
                 <SidebarTrigger className="-ml-1" />
                 <Separator
                     orientation="vertical"

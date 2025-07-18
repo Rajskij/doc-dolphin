@@ -5,21 +5,35 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    data: {
+    report: {
         type: String,
         required: true
     }
 }, { timestamps: true });
 
-schema.statics.createResult = async function (user_id, data) {
-    const result = await this.create({ user_id, data });
+schema.statics.createDoc = async function (user_id, report) {
+    const result = await this.create({ user_id, report });
 
     return result;
 }
 
-schema.statics.getResults = async function (user_id) {
-    const result = await this.find({ user_id });
-    
+schema.statics.getResults = async function (user_id, page, limit) {
+    const result = await this.aggregate([
+        { $match: { user_id } },
+        {
+            $facet: {
+                // Count total documents
+                metadata: [{ $count: "total" }],
+                // Fetch paginated data
+                data: [
+                    { $skip: (page - 1) * limit },
+                    { $limit: limit },
+                    { $sort: { createdAt: -1 } },
+                ],
+            },
+        },
+    ]);
+
     return result;
 }
 

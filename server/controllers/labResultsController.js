@@ -2,6 +2,7 @@ import { combineImageVertically } from '../utils/dataOptimization.js';
 import { PassThrough } from 'stream';
 import { processMedicalImages } from '../llm_processor/LlmProcessor.js';
 import ResultModel from '../model/ResultModel.js';
+import { totalmem } from 'os';
 
 async function parseMedicalTest(req, res) {
     if (!req.files) {
@@ -34,20 +35,27 @@ async function parseMedicalTest(req, res) {
 async function getResults(req, res) {
     try {
         const id = req.params.user_id;
-        const result = await ResultModel.getResults(id);
+        const page = parseInt(req.query?.page) || 1;
+        const limit = parseInt(req.query?.limit) || 10;
 
-        res.status(201).json(result);
+
+        const results = await ResultModel.getResults(id, page, limit);
+        
+        const total = results[0]?.metadata[0]?.total || 0;
+        const totalPages = Math.ceil(total / limit);
+        console.log({ total, page, totalPages })
+        res.status(201).json({ results: results[0]?.data || [], total, page, totalPages });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 }
 
-async function createResult(req, res) {
+async function createReport(req, res) {
     try {
         const id = req.params.user_id;
-        const data = req.body.data;
+        const report = req.body.report;
 
-        const result = await ResultModel.createResult(id, data);
+        const result = await ResultModel.createDoc(id, report);
 
         res.status(201).json(result);
     } catch (err) {
@@ -55,4 +63,4 @@ async function createResult(req, res) {
     }
 }
 
-export { parseMedicalTest, getResults, createResult };
+export { parseMedicalTest, getResults, createReport };

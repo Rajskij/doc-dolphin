@@ -47,22 +47,28 @@ async function fetchLabResults(formData, setIsStreaming, setError, setOutput, ab
     }
 }
 
-async function createResult(userId, setIsLoading, setError, data) {
+async function createResult(userId, setError, data) {
     try {
-        setIsLoading(true);
+        // setIsLoading(true);
+        const jsonPayload = {
+            report: data,
+        };
+
         const response = await fetch(`${BASE_URL}/api/results/${userId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: JSON.stringify(jsonPayload)
         });
+        const json = await response.json();
 
+        console.log(json)
         if (!response.ok) {
-            setError(response.error);
+            setError(json.error);
         }
     } catch (error) {
         setError(error.message);
     } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
     }
 }
 
