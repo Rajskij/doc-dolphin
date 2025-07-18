@@ -10,6 +10,7 @@ function MainLayout({ user }) {
     const [navHeight, setNavHight] = useState(62);
     const [isStaticWidth, setIsFullWidth] = useState(true);
     const navbarRef = useRef();
+    const insetRef = useRef();
 
     useEffect(() => {
         const height = navbarRef.current.offsetHeight;
@@ -22,10 +23,10 @@ function MainLayout({ user }) {
             <div className={`flex justify-center ${isStaticWidth && 'max-w-7xl'} w-full`}>
                 {user && <AppSidebar variant="inset" style={{ top: `${navHeight}px` }} />}
                 {/* Main Content Area */}
-                <SidebarInset className='mx-4 mb-4 bg-background rounded-xl'>
+                <SidebarInset ref={insetRef} className='mb-4'>
                     {user && <ContentHeader navHeight={navHeight} />}
-                    <MainContent>
-                        <Outlet/>
+                    <MainContent insetRef={insetRef} navHeight={navHeight}>
+                        <Outlet />
                     </MainContent>
                 </SidebarInset>
             </div>

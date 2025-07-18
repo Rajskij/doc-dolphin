@@ -1,22 +1,11 @@
-"use client"
-
-import { FlaskConical,Home, User } from "lucide-react";
-
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { FlaskConical, Home, NotepadText } from "lucide-react";
+import { Collapsible } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom";
 
@@ -51,8 +40,8 @@ export function NavMain({
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip='Title'>
               <Link to='/users'>
-                <User />
-                <span>Users</span>
+                <NotepadText />
+                <span>Results</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

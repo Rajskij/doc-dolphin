@@ -25,7 +25,7 @@ function About() {
     const abortRef = useRef();
 
     async function handleSubmit(files) {
-        setIsLoading(true);
+        setIsStreaming(false);
         setError(null);
         setOutput('');
 
@@ -36,7 +36,7 @@ function About() {
 
         abortRef.current = new AbortController();
 
-        fetchLabResults(formData, setIsLoading, setError, setOutput, abortRef);
+        fetchLabResults(formData, setIsStreaming, setError, setOutput, abortRef);
     }
 
     function handleAbort() {
@@ -49,7 +49,7 @@ function About() {
     }
 
     function handleSave() {
-        createResult(user.id, setIsLoading, setError);
+        createResult(user.id, setIsLoading, setError, output);
     }
 
     return (
@@ -69,13 +69,13 @@ function About() {
                         <Button variant='secondary'
                             className='mr-4'
                             onClick={handleAbort}
-                            disabled={isLoading || isStreaming}
+                            disabled={!isStreaming}
                         >
                             Stop
                         </Button>
                         <Button
                             onClick={handleSave}
-                            disabled={output === INFO || isStreaming}
+                            disabled={output === INFO || output === '' || isStreaming}
                         >
                             Save
                         </Button>
@@ -84,7 +84,7 @@ function About() {
                 <Separator />
 
                 <CardAction className='px-6'>
-                    {isLoading && <h4>Loading...</h4>}
+                    {output === '' && <h4>Loading...</h4>}
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
                     {error && <><br /><h2 className="text-red-400">{error}</h2></>}
                 </CardAction>

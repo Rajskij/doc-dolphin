@@ -1,11 +1,11 @@
 const BASE_URL = 'http://localhost:8000';
 
-async function fetchLabResults(formData, setIsLoading, setError, setOutput, abortRef) {
+async function fetchLabResults(formData, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;
 
     try {
         const start = Date.now();
-        const response = await fetch(`${BASE_URL}/results`, {
+        const response = await fetch(`${BASE_URL}/api/results`, {
             method: 'POST',
             body: formData,
             signal: abortRef.current.signal
@@ -22,7 +22,7 @@ async function fetchLabResults(formData, setIsLoading, setError, setOutput, abor
                 break;
             }
             if (isFirstChunk) {
-                setIsLoading(false);
+                setIsStreaming(true);
                 isFirstChunk = !isFirstChunk;
                 const duration = Date.now() - start;
                 console.log(`Request took ${duration / 1000}seconds`);
@@ -43,16 +43,17 @@ async function fetchLabResults(formData, setIsLoading, setError, setOutput, abor
             setError(err.message);
         }
     } finally {
-        setIsLoading(false);
+        setIsStreaming(false);
     }
 }
 
-async function createResult(userId, setIsLoading, setError) {
+async function createResult(userId, setIsLoading, setError, data) {
     try {
         setIsLoading(true);
-        const response = await fetch(`${BASE_URL}/results/${userId}`, {
+        const response = await fetch(`${BASE_URL}/api/results/${userId}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
 
         if (!response.ok) {
