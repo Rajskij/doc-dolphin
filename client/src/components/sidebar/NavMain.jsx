@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight, FolderArchive, Home, User } from "lucide-react";
+import { FlaskConical,Home, User } from "lucide-react";
 
 import {
   Collapsible,
@@ -41,8 +41,8 @@ export function NavMain({
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip='Title'>
               <Link to='/about'>
-                <FolderArchive />
-                <span>About</span>
+                <FlaskConical />
+                <span>Analyzer</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

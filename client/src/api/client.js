@@ -1,0 +1,50 @@
+const BASE_URL = 'http://localhost:8000';
+
+async function fetchLabResults(formData, setIsLoading, setError, setOutput, abortRef) {
+    let isFirstChunk = true;
+
+    try {
+        const start = Date.now();
+        const response = await fetch(`${BASE_URL}/documents`, {
+            method: 'POST',
+            body: formData,
+            signal: abortRef.current.signal
+            // Reminder: Headers are automatically set by the browser when using FormData
+        });
+
+        const reader = response.body
+            .pipeThrough(new TextDecoderStream())
+            .getReader();
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+                break;
+            }
+            if (isFirstChunk) {
+                setIsLoading(false);
+                isFirstChunk = !isFirstChunk;
+                const duration = Date.now() - start;
+                console.log(`Request took ${duration / 1000}seconds`);
+            }
+
+            // console.log('Received value: ', value);
+            const jsonData = JSON.parse(value);
+            if (jsonData.error) {
+                setError(jsonData.error);
+                break;
+            }
+            setOutput(prev => prev + jsonData.message?.content);
+        }
+    } catch (err) {
+        if (err.name === 'AbortError') {
+            setError(abortRef.current.error);
+        } else {
+            setError(err.message);
+        }
+    } finally {
+        setIsLoading(false);
+    }
+}
+
+export { fetchLabResults };

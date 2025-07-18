@@ -8,14 +8,13 @@ const multerOptions = {
         fileSize: 10 * 1024 * 1024, // Limit file size to 10MB
     },
     fileFilter: (req, file, cb) => {
-        console.log('hello', file)
-        const allowedMimeTypes = ['image/jpeg', 'image/png'];
-        if (allowedMimeTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(new Error('Invalid file type. Only image files are allowed.'));
-        }
+        const allowedTypes = ['image/jpeg', 'image/png'];
+        cb(null, allowedTypes.includes(file.mimetype));
     },
+    onError: (err, next) => {
+        console.error('Multer error:', err);
+        next(err);
+    }
 };
 
 const upload = multer(multerOptions);
@@ -23,6 +22,6 @@ const routes = express.Router();
 
 routes
     .route('/')
-    .post(upload.single('file'), parseMedicalTest);
+    .post(upload.array('files', 10), parseMedicalTest);
 
 export default routes;

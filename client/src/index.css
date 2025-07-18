@@ -1,14 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
-@import "tailwindcss";
 @import "tw-animate-css";
-
-.markdown table {
-  @apply table-auto w-full border-collapse border border-gray-300;
-}
-.markdown th,
-.markdown td {
-  @apply border border-gray-300 px-4 py-2 text-left;
-}
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 

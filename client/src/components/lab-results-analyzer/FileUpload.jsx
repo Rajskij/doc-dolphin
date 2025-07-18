@@ -16,13 +16,10 @@ import {
 import { Button } from "@/components/ui/button";
 
 export function FileUpload({ handleSubmit }) {
-  const [testFile, setTestFile] = useState(null);
-  // console.log(testFile);
+  // const [testFiles, setTestFiles] = useState([]);
 
   const dropzone = useDropzone({
     onDropFile: async (file) => {
-      setTestFile(file);
-
       await new Promise((resolve) => setTimeout(resolve, 1000));
       return {
         status: "success",
@@ -37,7 +34,7 @@ export function FileUpload({ handleSubmit }) {
       maxFiles: 10,
     },
   });
-
+  // console.log(dropzone)
 
   return (
     <div className="not-prose flex flex-col gap-4">
@@ -62,7 +59,7 @@ export function FileUpload({ handleSubmit }) {
           </DropZoneArea>
         </div>
 
-        <DropzoneFileList className="grid gap-3 p-0 md:grid-cols-2 lg:grid-cols-1">
+        <DropzoneFileList className="grid gap-3 p-0 md:grid-cols-2 lg:grid-cols-4">
           {dropzone.fileStatuses.map((file) => (
             <DropzoneFileListItem
               className="overflow-hidden rounded-md bg-secondary p-0 shadow-sm"
@@ -73,7 +70,7 @@ export function FileUpload({ handleSubmit }) {
                 <InfiniteProgress status={file.status}>
                   Content
                 </InfiniteProgress>
-                // <div className="aspect-video animate-pulse bg-black/20" />
+                  // <div className="aspect-video animate-pulse bg-black/20" />
               )}
               <div className="flex items-center justify-between p-2 pl-4">
                 <div className="min-w-0">
@@ -85,6 +82,7 @@ export function FileUpload({ handleSubmit }) {
                 <DropzoneRemoveFile
                   variant="ghost"
                   className="shrink-0 hover:outline"
+                  // onClick={() => setTestFiles(prev => prev.filter(p => p === file))}
                 >
                   <Trash2Icon className="size-4" />
                 </DropzoneRemoveFile>
@@ -93,7 +91,7 @@ export function FileUpload({ handleSubmit }) {
           ))}
         </DropzoneFileList>
         <div>
-          <Button onClick={() => handleSubmit(testFile)} disabled={!testFile} >Submit</Button>
+          <Button onClick={() => handleSubmit(dropzone.fileStatuses.map(status => status.file))} disabled={dropzone.fileStatuses.length < 1} >Submit</Button>
         </div>
       </Dropzone>
     </div>

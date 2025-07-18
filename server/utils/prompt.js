@@ -47,3 +47,12 @@ export const MEDICAL_PROMPT_GENERAL = `You are a senior medical diagnostician an
    - Suggested specialist consultations
 4. Use only evidence-based medicine
 5. Format clearly with markdown`
+
+export const EXTRACT_DATA_PROMPT = `Here is a photo of a medical lab test result.
+
+Please carefully read all test names, values, units, and reference ranges, and convert them into a Markdown table like this:
+
+| Test Name | Result | Unit | Reference Range | Flag |
+|-----------|--------|------|------------------|------|
+
+If something is unclear, still include it but note 'unclear' in the table.`
