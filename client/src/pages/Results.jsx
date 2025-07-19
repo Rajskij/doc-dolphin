@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Cross, Trash, Trash2 } from "lucide-react";
+import { Pen, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
     Card,
@@ -11,12 +11,14 @@ import {
 
 import DropdownSelector from "@/components/results-details/DropdownSelector";
 import Pagination from "@/components/results-details/Pagination";
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from 'react-markdown';
 
 function Results() {
-    const [results, setResults] = useState();
     const [resultDetails, setResultDetails] = useState();
-    const [page, setPage] = useState(5);
+    const [results, setResults] = useState();
     const [totalPages, setTotalPages] = useState(null);
+    const [page, setPage] = useState(5);
     const [rows, setRows] = useState(5);
     const { user } = useAuthContext();
 
@@ -33,6 +35,17 @@ function Results() {
         getResults()
     }, [page, rows]);
 
+    async function handleDelete(result_id) {
+        const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
+            method: 'DELETE'
+        })
+
+        if (!response.ok) {
+            return;
+        }
+        setResults(prev => prev.filter(r => r._id != result_id));
+    }
+
     return (
         <div className="flex w-full gap-4 h-[calc(100vh-12rem)]">
             <div className="flex-1 overflow-y-auto no-scrollbar">
@@ -43,7 +56,7 @@ function Results() {
                                 <h1 className="text-primary">Test Summery Report</h1>
                             </CardTitle>
                             <CardAction>
-                                <Button variant='secondary'>
+                                <Button onClick={() => handleDelete(result._id)} variant='secondary'>
                                     <Trash2 />
                                 </Button>
                             </CardAction>
@@ -57,8 +70,20 @@ function Results() {
                 </div>
             </div>
             <div className="flex-1 overflow-y-auto no-scrollbar">
-                <Card className="@container/card min-h-50 p-4 bg-input">
-                    <p>{resultDetails}</p>
+                <Card className="@container/card  bg-input">
+                    <CardHeader className='flex items-center justify-between'>
+                        <CardTitle>
+                            <h1 className="text-primary">Test Summery Report</h1>
+                        </CardTitle>
+                        <CardAction>
+                            <Button onClick={() => handleDelete(result._id)} variant='secondary'>
+                                <Pen />
+                            </Button>
+                        </CardAction>
+                    </CardHeader>
+                    <div className="p-4">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{resultDetails}</ReactMarkdown>
+                    </div>
                 </Card>
             </div>
         </div>
