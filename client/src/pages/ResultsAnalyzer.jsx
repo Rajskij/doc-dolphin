@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { fetchLabResults, createResult } from "@/api/client";
 
-import { FileUpload } from "@/components/lab-results-analyzer/FileUpload";
+import { FileUpload } from "@/components/results-analyzer/FileUpload";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
