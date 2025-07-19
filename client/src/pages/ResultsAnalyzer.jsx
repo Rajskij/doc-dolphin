@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { fetchLabResults, createResult } from "@/api/client";
+import { fetchLabResults, saveResult } from "@/api/client";
 
 import { FileUpload } from "@/components/results-analyzer/FileUpload";
 import ReactMarkdown from 'react-markdown';
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const INFO = 'Upload your medical tests to see insights'
 
@@ -20,6 +21,7 @@ function About() {
     const [output, setOutput] = useState(INFO);
     const [isLoading, setIsLoading] = useState(false);
     const [isStreaming, setIsStreaming] = useState(false);
+    const [isSaved, setIsSaved] = useState(false);
     const [error, setError] = useState(null);
     const { user } = useAuthContext();
     const abortRef = useRef();
@@ -28,6 +30,8 @@ function About() {
         setIsStreaming(false);
         setError(null);
         setOutput('');
+        setIsSaved(false);
+        setIsLoading(true);
 
         const formData = new FormData();
         files.forEach(file => {
@@ -49,7 +53,8 @@ function About() {
     }
 
     function handleSave() {
-        createResult(user.id, setError, output);
+        const result = saveResult(user.id, setError, output);
+        setIsSaved(result);
     }
 
     return (
@@ -75,7 +80,7 @@ function About() {
                         </Button>
                         <Button
                             onClick={handleSave}
-                            disabled={output === INFO || isLoading || isStreaming}
+                            disabled={output === INFO || isLoading || isStreaming || isSaved}
                         >
                             Save
                         </Button>
@@ -83,11 +88,15 @@ function About() {
                 </CardHeader>
                 <Separator />
 
+                {isLoading && <div className="flex flex-col mx-6 space-y-3">
+                    <Skeleton className='h-4' />
+                    <Skeleton className='h-4 w-full' />
+                    <Skeleton className='h-4 w-[90%]' />
+                </div>}
                 <CardAction className='px-6'>
-                    {output === '' && <h4>Loading...</h4>}
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
                     {/* <p>{output}</p> */}
-                    {error && <><br /><h2 className="text-red-400">{error}</h2></>}
+                    {/* {error && <><br /><h2 className="text-red-400">{error}</h2></>} */}
                 </CardAction>
             </Card>
         </>

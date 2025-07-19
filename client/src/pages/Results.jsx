@@ -13,6 +13,7 @@ import DropdownSelector from "@/components/results-details/DropdownSelector";
 import Pagination from "@/components/results-details/Pagination";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
+import { toast } from "sonner";
 
 function Results() {
     const [resultDetails, setResultDetails] = useState();
@@ -38,9 +39,6 @@ function Results() {
             setResults(json.results);
             setTotalPages(json.totalPages);
         } catch (err) {
-            if (!results) {
-                console.log('this is true')
-            }
             setError(err.message);
         }
     }
@@ -59,13 +57,16 @@ function Results() {
             if (!response.ok) {
                 const json = response.json();
                 setError(json.error);
+                toast.error(json.error || "Failed to fetch results", { position: "top-center" });
                 return;
             }
+            toast.success("Result removed successfully", { position: "top-center" });
             setResults(prev => prev.filter(r => r._id != result_id));
             getResults();
         } catch (err) {
             setError(err.message);
             console.error(err.message)
+            toast.error(err.message || "An error occurred", { position: "top-center" });
         }
     }
 

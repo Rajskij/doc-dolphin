@@ -1,9 +1,10 @@
+import { toast } from "sonner";
+
 const BASE_URL = 'http://localhost:8000';
 
 async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;
-    setIsLoading(true);
-
+    toast.loading("Loading report...", { position: "bottom-center" });
     try {
         const start = Date.now();
         const response = await fetch(`${BASE_URL}/api/results`, {
@@ -23,6 +24,7 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
                 break;
             }
             if (isFirstChunk) {
+                toast.dismiss();
                 setIsLoading(false);
                 setIsStreaming(true);
                 isFirstChunk = !isFirstChunk;
@@ -34,6 +36,7 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
             const jsonData = JSON.parse(value);
             if (jsonData.error) {
                 setError(jsonData.error);
+                toast.error(jsonData.error || "Failed to fetch results", { position: "top-center" });
                 break;
             }
             setOutput(prev => prev + jsonData.message?.content);
@@ -43,14 +46,16 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
             setError(abortRef.current.error);
         } else {
             setError(err.message);
+            toast.error(err.message || "An error occurred", { position: "top-center" });
         }
     } finally {
         setIsStreaming(false);
         setIsLoading(false);
+        toast.dismiss();
     }
 }
 
-async function createResult(userId, setError, data) {
+async function saveResult(userId, setError, data) {
     try {
         // setIsLoading(true);
         const jsonPayload = {
@@ -67,12 +72,18 @@ async function createResult(userId, setError, data) {
         console.log(json)
         if (!response.ok) {
             setError(json.error);
+            toast.error(json.error || "Failed to fetch results", { position: "top-center" });
+            return false;
         }
-    } catch (error) {
-        setError(error.message);
+        toast.success("Result saved successfully", { position: "top-center" });
+        return true;
+    } catch (err) {
+        setError(err.message);
+        toast.error(err.message || "An error occurred", { position: "top-center" });
+        return false;
     } finally {
         // setIsLoading(false);
     }
 }
 
-export { fetchLabResults, createResult };
+export { fetchLabResults, saveResult };

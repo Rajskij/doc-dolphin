@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import MainLayout from './layout/MainLayout';
 import { ThemeProvider } from './context/ThemProvider';
 import NotFound from './pages/NotFound';
+import { Toaster } from './components/ui/sonner';
 
 function App() {
   const { user } = useAuthContext();
@@ -24,10 +25,11 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Route>
-          <Route path='/*' element={ <NotFound /> } />
+          <Route path='/*' element={<NotFound />} />
         </Routes>
         {/* </div> */}
       </Router>
+      <Toaster richColors />
     </ThemeProvider>
   )
 }
