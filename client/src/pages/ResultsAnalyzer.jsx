@@ -36,7 +36,7 @@ function About() {
 
         abortRef.current = new AbortController();
 
-        fetchLabResults(formData, setIsStreaming, setError, setOutput, abortRef);
+        fetchLabResults(formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef);
     }
 
     function handleAbort() {
@@ -58,7 +58,7 @@ function About() {
                 <CardTitle>
                     <h1 className="text-primary">Upload your test result</h1>
                 </CardTitle>
-                <FileUpload handleSubmit={handleSubmit} output={output} isStreaming={isStreaming} />
+                <FileUpload handleSubmit={handleSubmit} isLoading={isLoading} isStreaming={isStreaming} />
             </Card>
             <Card className="@container/card min-h-100">
                 <CardHeader className='flex items-center justify-between'>
@@ -69,13 +69,13 @@ function About() {
                         <Button variant='secondary'
                             className='mr-4'
                             onClick={handleAbort}
-                            disabled={!isStreaming}
+                            disabled={!isLoading && !isStreaming}
                         >
                             Stop
                         </Button>
                         <Button
                             onClick={handleSave}
-                            disabled={output === INFO || output === '' || isStreaming}
+                            disabled={output === INFO || isLoading || isStreaming}
                         >
                             Save
                         </Button>

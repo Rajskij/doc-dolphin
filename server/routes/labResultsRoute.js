@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { parseMedicalTest, getResults, createReport } from '../controllers/labResultsController.js';
+import { parseMedicalTest, getResults, createReport, deleteResult } from '../controllers/labResultsController.js';
 
 const multerOptions = {
     storage: multer.memoryStorage(), // Store files in memory for processing
@@ -22,6 +22,7 @@ const routes = express.Router();
 
 routes.post('/', upload.array('files', 10), parseMedicalTest);
 
+routes.delete('/:result_id', deleteResult);
 routes
     .route('/:user_id')
     .get(getResults)

@@ -1,7 +1,8 @@
 const BASE_URL = 'http://localhost:8000';
 
-async function fetchLabResults(formData, setIsStreaming, setError, setOutput, abortRef) {
+async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;
+    setIsLoading(true);
 
     try {
         const start = Date.now();
@@ -22,6 +23,7 @@ async function fetchLabResults(formData, setIsStreaming, setError, setOutput, ab
                 break;
             }
             if (isFirstChunk) {
+                setIsLoading(false);
                 setIsStreaming(true);
                 isFirstChunk = !isFirstChunk;
                 const duration = Date.now() - start;
@@ -44,6 +46,7 @@ async function fetchLabResults(formData, setIsStreaming, setError, setOutput, ab
         }
     } finally {
         setIsStreaming(false);
+        setIsLoading(false);
     }
 }
 

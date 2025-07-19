@@ -40,10 +40,9 @@ async function getResults(req, res) {
 
 
         const results = await ResultModel.getResults(id, page, limit);
-        
+
         const total = results[0]?.metadata[0]?.total || 0;
         const totalPages = Math.ceil(total / limit);
-        console.log({ total, page, totalPages })
         res.status(201).json({ results: results[0]?.data || [], total, page, totalPages });
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -63,4 +62,13 @@ async function createReport(req, res) {
     }
 }
 
-export { parseMedicalTest, getResults, createReport };
+async function deleteResult(req, res) {
+    try {
+        const result = await ResultModel.deleteDoc(req.params.result_id);
+        res.status(204).end();
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+export { parseMedicalTest, getResults, createReport, deleteResult };

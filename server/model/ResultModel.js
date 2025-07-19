@@ -11,9 +11,18 @@ const schema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+schema.statics.deleteDoc = async function (result_id) {
+    const result = await this.findOneAndDelete({ _id: result_id });
+
+    if (!result) {
+        throw Error("Result does not exist!");
+    }
+    
+    return result;
+}
+
 schema.statics.createDoc = async function (user_id, report) {
     const result = await this.create({ user_id, report });
-
     return result;
 }
 

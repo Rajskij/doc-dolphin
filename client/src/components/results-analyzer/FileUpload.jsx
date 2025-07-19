@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropzone";
 import { Button } from "@/components/ui/button";
 
-export function FileUpload({ handleSubmit, output, isStreaming }) {
+export function FileUpload({ handleSubmit, isLoading, isStreaming }) {
   // const [testFiles, setTestFiles] = useState([]);
 
   const dropzone = useDropzone({
@@ -93,7 +93,7 @@ export function FileUpload({ handleSubmit, output, isStreaming }) {
         <div>
           <Button
             onClick={() => handleSubmit(dropzone.fileStatuses.map(status => status.file))}
-            disabled={isStreaming || output === '' || dropzone.fileStatuses.length < 1}
+            disabled={isStreaming || isLoading || dropzone.fileStatuses.length < 1}
           >
             Analyze
           </Button>
