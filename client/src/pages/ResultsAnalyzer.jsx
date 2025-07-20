@@ -53,19 +53,19 @@ function About() {
     }
 
     function handleSave() {
-        const result = saveResult(user.id, setError, output);
+        const result = saveResult(user.id, output);
         setIsSaved(result);
     }
 
     return (
-        <>
+        <div className="flex flex-col min-h-[calc(100vh-11rem)]">
             <Card className="@container/card px-4 mb-4">
                 <CardTitle>
                     <h1 className="text-primary">Upload your test result</h1>
                 </CardTitle>
                 <FileUpload handleSubmit={handleSubmit} isLoading={isLoading} isStreaming={isStreaming} />
             </Card>
-            <Card className="@container/card min-h-100">
+            <Card className="@container/card flex-1">
                 <CardHeader className='flex items-center justify-between'>
                     <CardTitle>
                         <h1 className="text-primary">Test Summery Report</h1>
@@ -99,7 +99,7 @@ function About() {
                     {/* {error && <><br /><h2 className="text-red-400">{error}</h2></>} */}
                 </CardAction>
             </Card>
-        </>
+        </div>
     );
 }
 

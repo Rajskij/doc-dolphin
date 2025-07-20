@@ -1,9 +1,14 @@
 import mongoose from 'mongoose';
+import { type } from 'os';
 
 const schema = new mongoose.Schema({
     user_id: {
         type: String,
         required: true
+    },
+    title: {
+        type: String,
+        default: 'Summery Report'
     },
     report: {
         type: String,
@@ -21,8 +26,8 @@ schema.statics.deleteDoc = async function (result_id) {
     return result;
 }
 
-schema.statics.createDoc = async function (user_id, report) {
-    const result = await this.create({ user_id, report });
+schema.statics.createDoc = async function (user_id, report, title) {
+    const result = await this.create({ user_id, report, title });
     return result;
 }
 

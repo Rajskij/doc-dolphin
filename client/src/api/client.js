@@ -44,6 +44,7 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
     } catch (err) {
         if (err.name === 'AbortError') {
             setError(abortRef.current.error);
+            toast.error(abortRef.current.error || "Aborted by User", { position: "top-center" });
         } else {
             setError(err.message);
             toast.error(err.message || "An error occurred", { position: "top-center" });
@@ -55,9 +56,9 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
     }
 }
 
-async function saveResult(userId, setError, data) {
+async function saveResult(userId, data) {
     try {
-        // setIsLoading(true);
+        toast.loading("Saving report...", { position: "bottom-center" });
         const jsonPayload = {
             report: data,
         };
@@ -71,18 +72,17 @@ async function saveResult(userId, setError, data) {
 
         console.log(json)
         if (!response.ok) {
-            setError(json.error);
             toast.error(json.error || "Failed to fetch results", { position: "top-center" });
             return false;
         }
+        toast.dismiss();
         toast.success("Result saved successfully", { position: "top-center" });
         return true;
     } catch (err) {
-        setError(err.message);
         toast.error(err.message || "An error occurred", { position: "top-center" });
         return false;
     } finally {
-        // setIsLoading(false);
+        toast.dismiss();
     }
 }
 

@@ -1,8 +1,8 @@
 import { combineImageVertically } from '../utils/dataOptimization.js';
 import { PassThrough } from 'stream';
-import { processMedicalImages } from '../llm_processor/LlmProcessor.js';
+import { createTitle, processMedicalImages } from '../llm_processor/LlmProcessor.js';
 import ResultModel from '../model/ResultModel.js';
-import { totalmem } from 'os';
+import ollama from 'ollama'
 
 async function parseMedicalTest(req, res) {
     if (!req.files) {
@@ -53,8 +53,11 @@ async function createReport(req, res) {
     try {
         const id = req.params.user_id;
         const report = req.body.report;
+        const title = await createTitle(report);
 
-        const result = await ResultModel.createDoc(id, report);
+        console.log(title)
+
+        const result = await ResultModel.createDoc(id, report, title);
 
         res.status(201).json(result);
     } catch (err) {

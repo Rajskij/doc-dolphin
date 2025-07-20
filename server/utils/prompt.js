@@ -46,7 +46,9 @@ export const MEDICAL_PROMPT_GENERAL = `You are a senior medical diagnostician an
    - Priority recommendations
    - Suggested specialist consultations
 4. Use only evidence-based medicine
-5. Format clearly with markdown`
+5. Format clearly with markdown
+7. Add spacing between for better readability
+6. Create Title for each result, title should be not longer then 20 symbols`
 
 export const EXTRACT_DATA_PROMPT = `Here is a photo of a medical lab test result.
 
