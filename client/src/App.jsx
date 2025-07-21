@@ -4,11 +4,12 @@ import About from './pages/ResultsAnalyzer';
 import Login from './pages/Login';
 import Results from './pages/Results';
 import Signup from './pages/Signup';
-import Home from './pages/Home';
+import Home from './pages/HomePage';
 import MainLayout from './layout/MainLayout';
 import { ThemeProvider } from './context/ThemProvider';
 import NotFound from './pages/NotFound';
 import { Toaster } from './components/ui/sonner';
+import ResultDetails from './pages/ResultDetails';
 
 function App() {
   const { user } = useAuthContext();
@@ -20,8 +21,9 @@ function App() {
         <Routes>
           <Route element={<MainLayout user={user} />}>
             <Route path='/' element={<Home />} />
-            <Route path='/users' element={<Results />} />
-            <Route path='/about' element={<About />} />
+            <Route path='/analyze' element={<About />} />
+            <Route path='/results' element={<Results />} />
+            <Route path='/result/:result_id' element={<ResultDetails />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Route>

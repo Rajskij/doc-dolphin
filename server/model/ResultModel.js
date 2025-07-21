@@ -32,6 +32,16 @@ schema.statics.createDoc = async function (user_id, report, title) {
     return result;
 }
 
+schema.statics.getResult = async function (_id) {
+    const result = await this.findOne({ _id });
+
+    if (!result) {
+        throw Error("Result does not exist!");
+    }
+
+    return result;
+}
+
 schema.statics.getResults = async function (user_id, page, limit) {
     const result = await this.aggregate([
         { $match: { user_id } },
@@ -56,9 +66,9 @@ schema.statics.updateDoc = async function (_id, title) {
     if (typeof title !== 'string') {
         throw new Error("Title must be a string");
     }
-    
+
     const result = await this.findOneAndUpdate(
-        { _id }, 
+        { _id },
         { title: title },
         { new: true }
     )

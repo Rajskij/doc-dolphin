@@ -32,6 +32,16 @@ async function parseMedicalTest(req, res) {
     }
 }
 
+async function getResult(req, res) {
+    try {
+        const id = req.params.result_id;
+        const results = await ResultModel.getResult(id);
+        res.status(201).json({ results });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
 async function getResults(req, res) {
     try {
         const id = req.params.user_id;
@@ -87,4 +97,4 @@ async function updateResult(req, res) {
     }
 }
 
-export { parseMedicalTest, getResults, createReport, deleteResult, updateResult };
+export { parseMedicalTest, getResults, getResult, createReport, deleteResult, updateResult };

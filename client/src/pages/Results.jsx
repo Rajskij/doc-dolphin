@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Input } from "@/components/ui/input";
+import { deleteResult, editResult } from "@/api/results";
+import { Link, useNavigate } from "react-router-dom";
 
 function Results() {
     const [resultDetails, setResultDetails] = useState();
@@ -32,18 +34,18 @@ function Results() {
     const [totalPages, setTotalPages] = useState(null);
     const [page, setPage] = useState(1);
     const [rows, setRows] = useState(5);
-    const [error, setError] = useState();
     const [isEdit, setIsEdit] = useState(false);
     const { user } = useAuthContext();
     const isMobile = useIsMobile()
+    const navigate = useNavigate();
 
     async function getResults() {
         try {
-            const response = await fetch(`http://localhost:8000/api/results/${user.id}?page=${page}&limit=${rows}`);
+            const response = await fetch(`http://localhost:8000/api/results/user/${user.id}?page=${page}&limit=${rows}`);
             const json = await response.json();
 
             if (!response.ok) {
-                setError(json.error);
+                toast.error(json.error || "Failed to fetch results", { position: "top-center" });
                 return;
             }
             console.log(json.results)
@@ -53,7 +55,7 @@ function Results() {
             setResults(json?.results);
             setTotalPages(json?.totalPages);
         } catch (err) {
-            setError(err.message);
+            toast.error(err.message || "An error occurred", { position: "top-center" });
         }
     }
 
@@ -62,51 +64,17 @@ function Results() {
     }, [page, rows]);
 
     async function handleEdit(result_id, event) {
-        try {
-            const title = event.target.value;
-
-            const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title })
-            })
-
-            if (!response.ok) {
-                const json = await response.json();
-                toast.error(json.error || "Failed to fetch results", { position: "top-center" });
-                return;
-            }
-
-            toast.success("Title edited successfully", { position: "top-center" });
-        } catch (err) {
-            toast.error(err.message || "An error occurred", { position: "top-center" });
-        } finally {
-            getResults();
-            setIsEdit(false);
-        }
+        const title = event.target.value;
+        await editResult(result_id, title)
+        // setResultDetails(response);
+        setIsEdit(false);
+        getResults();
     }
 
     async function handleDelete(result_id) {
-        try {
-            const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' }
-            })
-
-            if (!response.ok) {
-                const json = await response.json();
-                setError(json.error);
-                toast.error(json.error || "Failed to fetch results", { position: "top-center" });
-                return;
-            }
-            toast.success("Result removed successfully", { position: "top-center" });
-            setResults(prev => prev.filter(r => r._id != result_id));
-            getResults();
-        } catch (err) {
-            setError(err.message);
-            console.error(err.message)
-            toast.error(err.message || "An error occurred", { position: "top-center" });
-        }
+        deleteResult(result_id);
+        // setResults(prev => prev.filter(r => r._id != result_id));
+        getResults();
     }
 
     return (
@@ -118,6 +86,10 @@ function Results() {
                         <Card key={result._id} className="@container/card min-h-50 mb-4 ">
                             <CardHeader className='flex items-center justify-between'>
                                 <CardTitle className='cursor-pointer' onClick={() => {
+                                    if (isMobile) {
+                                        navigate(`/result/${result._id}`);
+                                        return;
+                                    }
                                     setResultDetails(result);
                                     setResultTitle(result.title);
                                     setIsEdit(false);
@@ -145,7 +117,7 @@ function Results() {
                                 value={resultTitle}
                                 onChange={(e) => setResultTitle(e.target.value)}
                                 onBlur={(e) => handleEdit(resultDetails._id, e)} />}
-                            {!isEdit && <h1 className="text-primary">{resultTitle}</h1>}
+                            {!isEdit && <Link to={`/result/${resultDetails._id}`}><h1 className="text-primary">{resultTitle}</h1></Link>}
                         </CardTitle>
                         <CardAction>
                             <DropdownMenu>

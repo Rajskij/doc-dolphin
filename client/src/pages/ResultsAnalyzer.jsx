@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { fetchLabResults, saveResult } from "@/api/client";
+import { fetchLabResults, saveResult } from "@/api/analyzer";
 
 import { FileUpload } from "@/components/results-analyzer/FileUpload";
 import ReactMarkdown from 'react-markdown';

@@ -7,7 +7,7 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
     toast.loading("Loading report...", { position: "bottom-center" });
     try {
         const start = Date.now();
-        const response = await fetch(`${BASE_URL}/api/results`, {
+        const response = await fetch(`${BASE_URL}/api/results/analyze`, {
             method: 'POST',
             body: formData,
             signal: abortRef.current.signal
@@ -63,14 +63,13 @@ async function saveResult(userId, data) {
             report: data,
         };
 
-        const response = await fetch(`${BASE_URL}/api/results/${userId}`, {
+        const response = await fetch(`${BASE_URL}/api/results/user/${userId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(jsonPayload)
         });
         const json = await response.json();
 
-        console.log(json)
         if (!response.ok) {
             toast.error(json.error || "Failed to fetch results", { position: "top-center" });
             return false;
@@ -79,10 +78,9 @@ async function saveResult(userId, data) {
         toast.success("Result saved successfully", { position: "top-center" });
         return true;
     } catch (err) {
+        toast.dismiss();
         toast.error(err.message || "An error occurred", { position: "top-center" });
         return false;
-    } finally {
-        toast.dismiss();
     }
 }
 
