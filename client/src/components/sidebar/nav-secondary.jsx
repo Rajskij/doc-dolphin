@@ -12,6 +12,8 @@ export function NavSecondary({
   items,
   ...props
 }) {
+  console.log(items)
+
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>

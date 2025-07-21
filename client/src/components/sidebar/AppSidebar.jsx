@@ -1,16 +1,5 @@
 import * as React from "react"
-import {
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react"
+import { LifeBuoy, FlaskConical, Home, Send } from "lucide-react";
 
 import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher"
 import { NavMain } from "@/components/sidebar/NavMain"
@@ -28,98 +17,28 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+const items = {
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      icon: Home,
+      title: 'Home',
+      url: '/'
     },
     {
-      title: "Models",
+      icon: FlaskConical,
+      title: 'Test Analyzer',
       url: "#",
-      icon: Bot,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          name: 'Analyzer',
+          url: '/analyze'
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+          name: 'Results',
+          url: '/results'
+        }
+      ]
+    }
   ],
   navSecondary: [
     {
@@ -132,38 +51,19 @@ const data = {
       url: "#",
       icon: Send,
     },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+  ]
 }
 
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar({ ...props }) {
   return (
     // variant: inset or floating add gap from all sides
     <Sidebar collapsible="icon" {...props}>
-        <SidebarContent>
-          <NavMain items={data.navMain} />
-        </SidebarContent>
-        <SidebarFooter >
-          <NavSecondary items={data.navSecondary} className="mt-0" />
-        </SidebarFooter>
+      <SidebarContent>
+        <NavMain items={items.navMain} />
+      </SidebarContent>
+      <SidebarFooter >
+        <NavSecondary items={items.navSecondary} className="mt-0" />
+      </SidebarFooter>
     </Sidebar>
   );
 }
