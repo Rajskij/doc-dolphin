@@ -55,7 +55,7 @@ function ContentHeader({ navHeight }) {
             <Breadcrumb className={`flex`}>
                 <BreadcrumbList>
                     {getBreadcrumbName(location.pathname).map((path, i) => (
-                        <>
+                        <div key={path} className="flex items-center gap-2">
                             {i !== 0 && <BreadcrumbSeparator className="hidden md:block" />}
                             <BreadcrumbItem className="hidden md:block">
                                 {i === 0
@@ -63,7 +63,7 @@ function ContentHeader({ navHeight }) {
                                     : path.name
                                 }
                             </BreadcrumbItem>
-                        </>
+                        </div>
                     ))}
                 </BreadcrumbList>
             </Breadcrumb>

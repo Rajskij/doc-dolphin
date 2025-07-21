@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:8000';
 
 async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;
-    toast.loading("Loading report...", { position: "bottom-center" });
+    toast.loading("Loading report...", { position: "top-center" });
     try {
         const start = Date.now();
         const response = await fetch(`${BASE_URL}/api/results/analyze`, {
@@ -58,7 +58,7 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
 
 async function saveResult(userId, data) {
     try {
-        toast.loading("Saving report...", { position: "bottom-center" });
+        toast.loading("Saving report...", { position: "top-center" });
         const jsonPayload = {
             report: data,
         };

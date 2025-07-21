@@ -51,9 +51,9 @@ schema.statics.getResults = async function (user_id, page, limit) {
                 metadata: [{ $count: "total" }],
                 // Fetch paginated data
                 data: [
+                    { $sort: { createdAt: -1 } },
                     { $skip: (page - 1) * limit },
                     { $limit: limit },
-                    { $sort: { createdAt: -1 } },
                 ],
             },
         },

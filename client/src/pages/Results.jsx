@@ -1,31 +1,17 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { Ellipsis, Pen, Trash2 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useEffect, useState } from "react";
-import {
-    Card,
-    CardAction,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Link, useNavigate } from "react-router-dom";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 import DropdownSelector from "@/components/results-details/DropdownSelector";
 import Pagination from "@/components/results-details/Pagination";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
 import { toast } from "sonner";
-
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Input } from "@/components/ui/input";
 import { deleteResult, editResult } from "@/api/results";
-import { Link, useNavigate } from "react-router-dom";
+import ResultSummary from "@/components/results-details/ResultSummary";
 
 function Results() {
     const [resultDetails, setResultDetails] = useState();
@@ -66,20 +52,18 @@ function Results() {
     async function handleEdit(result_id, event) {
         const title = event.target.value;
         await editResult(result_id, title)
-        // setResultDetails(response);
         setIsEdit(false);
         getResults();
     }
 
     async function handleDelete(result_id) {
         deleteResult(result_id);
-        // setResults(prev => prev.filter(r => r._id != result_id));
         getResults();
     }
+    const props = { isEdit, resultTitle, resultDetails, setResultTitle, handleEdit, setIsEdit, handleDelete };
 
     return (
         <div className="flex w-full gap-4 h-[calc(100vh-11rem)]">
-            {/* {error && <h1 className="w-full m-auto text-center text-red-400 text-2xl">{error}</h1>} */}
             <div className="flex flex-1 flex-col justify-between overflow-y-auto no-scrollbar">
                 <div>
                     {results && results.map(result => (
@@ -119,30 +103,9 @@ function Results() {
                                 onBlur={(e) => handleEdit(resultDetails._id, e)} />}
                             {!isEdit && <Link to={`/result/${resultDetails._id}`}><h1 className="text-primary">{resultTitle}</h1></Link>}
                         </CardTitle>
-                        <CardAction>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <button className="p-1 opacity-0 group-hover:opacity-100 rounded-sm hover:bg-accent data-[state=open]:opacity-100 ">
-                                        <Ellipsis />
-                                    </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    className="w-24 rounded-lg"
-                                    align={isMobile ? "end" : "start"}>
-                                    <DropdownMenuItem onClick={() => setIsEdit(true)}>
-                                        <Pen />
-                                        <span>Edit Title</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem variant="destructive" onClick={() => handleDelete(resultDetails._id)}>
-                                        <Trash2 />
-                                        <span>Delete</span>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </CardAction>
+                        <ResultSummary {...props} />
                     </CardHeader>
-                    <div className="p-4">
+                    <div className="p-4 overflow-hidden">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{resultDetails.report}</ReactMarkdown>
                     </div>
                 </Card>
