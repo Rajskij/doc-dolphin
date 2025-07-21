@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-[calc(100vh-9rem)] p-6">
       {/* Header */}
       <header className="mb-8 text-center">
         <h1 className="text-3xl font-bold">Doc Dolphin</h1>
@@ -16,15 +16,12 @@ export default function HomePage() {
 
       {/* Main Tabs */}
       <Tabs defaultValue="analyze" className="mx-auto max-w-4xl">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="analyze" className="flex items-center gap-2">
-            🔍 Analyze
-          </TabsTrigger>
-          <TabsTrigger value="history" className="flex items-center gap-2">
-            📁 History
+            Test Analyze
           </TabsTrigger>
           <TabsTrigger value="mood" className="flex items-center gap-2">
-            😊 Mood
+            Mood Tracker
           </TabsTrigger>
         </TabsList>
 
@@ -33,6 +30,9 @@ export default function HomePage() {
           <Card className="p-6">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Analyze Medical Tests</h2>
+              <p className="text-gray-600">
+                Track how you feel alongside test results.
+              </p>
               <img
                 src={'analyzeScreenshot'}
                 alt="Analysis Interface"
@@ -40,23 +40,6 @@ export default function HomePage() {
               />
               <Button className="py-2 px-4">
                 Analyze Test
-              </Button>
-            </div>
-          </Card>
-        </TabsContent>
-
-        {/* History Tab */}
-        <TabsContent value="history">
-          <Card className="p-6">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Test History</h2>
-              <img
-                src={'historyScreenshot'}
-                alt="History Interface"
-                className="rounded-lg border shadow-sm"
-              />
-              <Button className="py-2 px-4">
-                View All Reports
               </Button>
             </div>
           </Card>

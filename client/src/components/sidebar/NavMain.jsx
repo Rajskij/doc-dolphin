@@ -21,19 +21,26 @@ export function NavMain({ items }) {
         {items.map(item => (
           <Collapsible key={item.title} className="group/collapsible">
             <SidebarMenuItem>
-              <CollapsibleTrigger >
-                <SidebarMenuButton tooltip='Analyzer'>
-                  {item.icon && <item.icon />}
-                  <span className="overflow-hidden">{item.title}</span>
-                  {item.items && <ChevronRight
-                    className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />}
-                </SidebarMenuButton>
-              </CollapsibleTrigger>
+              {item.items
+                ? <CollapsibleTrigger >
+                  <SidebarMenuButton tooltip={item.title}>
+                    {item.icon && <item.icon />}
+                    <span className="overflow-hidden">{item.title}</span>
+                    <ChevronRight
+                      className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                : <SidebarMenuButton asChild tooltip={item.title}>
+                  <Link to={item.url}>
+                    {item.icon && <item.icon />}
+                    <span className="overflow-hidden">{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>}
               <CollapsibleContent>
                 <SidebarMenuSub>
                   {item.items?.map(subItem => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuButton asChild tooltip='Title'>
+                      <SidebarMenuButton asChild tooltip={subItem.title}>
                         <Link to={subItem.url}>
                           <span>{subItem.name}</span>
                         </Link>

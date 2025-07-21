@@ -8,31 +8,66 @@ import {
 } from "@/components/ui/breadcrumb"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
+import { useLocation, useParams } from "react-router-dom";
+
+const breadcrumbsConfig = {
+    '/': [{
+        name: 'Home',
+        url: '/'
+    }],
+    '/analyze': [{
+        name: 'Analyze Test',
+        url: '/analyze'
+    }],
+    '/results': [{
+        name: 'Test Results',
+        url: '/results'
+    }],
+    '/result/:result_id': [{
+        name: 'Test Results',
+        url: '/results'
+    },
+    {
+        name: 'Result Details',
+        url: null
+    }]
+};
 
 function ContentHeader({ navHeight }) {
-    console.log(navHeight);
+    const params = useParams();
+    const location = useLocation();
+
+    const getBreadcrumbName = (path) => {
+        console.log(path);
+        if (path.includes('/result') && params.result_id) {
+            return breadcrumbsConfig['/result/:result_id'];
+        }
+        return breadcrumbsConfig[path];
+    };
 
     return (
-            <div className={`flex sticky items-center gap-2 px-4 py-2 bg-background shadow-sm rounded-t-xl z-10`}  style={{ top: `${navHeight}px` }} >
-                <SidebarTrigger className="-ml-1" />
-                <Separator
-                    orientation="vertical"
-                    className="mr-2 data-[orientation=vertical]:h-4"
-                />
-                <Breadcrumb className={`flex`}>
-                    <BreadcrumbList>
-                        <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href="#">
-                                Building Your Application
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator className="hidden md:block" />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-            </div>
+        <div className={`flex sticky items-center gap-2 px-4 py-2 bg-background shadow-sm rounded-t-xl z-10`} style={{ top: `${navHeight}px` }} >
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+                orientation="vertical"
+                className="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <Breadcrumb className={`flex`}>
+                <BreadcrumbList>
+                    {getBreadcrumbName(location.pathname).map((path, i) => (
+                        <>
+                            {i !== 0 && <BreadcrumbSeparator className="hidden md:block" />}
+                            <BreadcrumbItem className="hidden md:block">
+                                {i === 0
+                                    ? <BreadcrumbLink href={path.url}>{path.name}</BreadcrumbLink>
+                                    : path.name
+                                }
+                            </BreadcrumbItem>
+                        </>
+                    ))}
+                </BreadcrumbList>
+            </Breadcrumb>
+        </div>
     );
 }
 

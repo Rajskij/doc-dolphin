@@ -64,10 +64,10 @@ function ResultDetails() {
 
     return (
         <div>
-            <Link to='/results' className="flex gap-2 mb-2">
+            {/* <Link to='/results' className="flex gap-2 mb-2">
                 <ArrowLeft />
                 <p className="overflow-hidden">Back to Results</p>
-            </Link>
+            </Link> */}
             <Card className="@container/card  bg-input group">
                 <CardHeader className='flex items-center justify-between'>
                     <CardTitle>
