@@ -67,11 +67,24 @@ async function createReport(req, res) {
 
 async function deleteResult(req, res) {
     try {
-        const result = await ResultModel.deleteDoc(req.params.result_id);
+        console.log(req.params);
+        await ResultModel.deleteDoc(req.params.result_id);
         res.status(204).end();
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 }
 
-export { parseMedicalTest, getResults, createReport, deleteResult };
+async function updateResult(req, res) {
+     try {
+        const id = req.params.result_id;
+        const title = req.body.title;
+
+        const result = await ResultModel.updateDoc(id, title);
+        res.status(201).json(result);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+}
+
+export { parseMedicalTest, getResults, createReport, deleteResult, updateResult };

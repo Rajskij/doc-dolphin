@@ -48,9 +48,10 @@ function Results() {
             }
             console.log(json.results)
 
-            setResultDetails(json.results[0]);
-            setResults(json.results);
-            setTotalPages(json.totalPages);
+            setResultDetails(json?.results[0]);
+            setResultTitle(json?.results[0]?.title);
+            setResults(json?.results);
+            setTotalPages(json?.totalPages);
         } catch (err) {
             setError(err.message);
         }
@@ -60,10 +61,29 @@ function Results() {
         getResults()
     }, [page, rows]);
 
-    async function handleEdit(event) {
-        const title = event.target.value;
-        console.log(title)
-        setIsEdit(false);
+    async function handleEdit(result_id, event) {
+        try {
+            const title = event.target.value;
+
+            const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title })
+            })
+
+            if (!response.ok) {
+                const json = await response.json();
+                toast.error(json.error || "Failed to fetch results", { position: "top-center" });
+                return;
+            }
+
+            toast.success("Title edited successfully", { position: "top-center" });
+        } catch (err) {
+            toast.error(err.message || "An error occurred", { position: "top-center" });
+        } finally {
+            getResults();
+            setIsEdit(false);
+        }
     }
 
     async function handleDelete(result_id) {
@@ -74,7 +94,7 @@ function Results() {
             })
 
             if (!response.ok) {
-                const json = response.json();
+                const json = await response.json();
                 setError(json.error);
                 toast.error(json.error || "Failed to fetch results", { position: "top-center" });
                 return;
@@ -91,16 +111,17 @@ function Results() {
 
     return (
         <div className="flex w-full gap-4 h-[calc(100vh-11rem)]">
-            {error && <h1 className="w-full m-auto text-center text-red-400 text-2xl">{error}</h1>}
+            {/* {error && <h1 className="w-full m-auto text-center text-red-400 text-2xl">{error}</h1>} */}
             <div className="flex flex-1 flex-col justify-between overflow-y-auto no-scrollbar">
                 <div>
                     {results && results.map(result => (
                         <Card key={result._id} className="@container/card min-h-50 mb-4 ">
                             <CardHeader className='flex items-center justify-between'>
                                 <CardTitle className='cursor-pointer' onClick={() => {
-                                    setResultDetails(result)
-                                    setResultTitle(result.title)
-                                 }}>
+                                    setResultDetails(result);
+                                    setResultTitle(result.title);
+                                    setIsEdit(false);
+                                }}>
                                     <h1 className="text-primary">{result.title || 'Test Summery Report'}</h1>
                                 </CardTitle>
                             </CardHeader>
@@ -115,15 +136,16 @@ function Results() {
                 </div>
             </div>
             {results && !isMobile && <div className="flex-1 overflow-y-auto no-scrollbar">
-                <Card className="@container/card  bg-input">
-                    <CardHeader className='flex items-center justify-between group'>
+                <Card className="@container/card  bg-input group">
+                    <CardHeader className='flex items-center justify-between'>
                         <CardTitle>
-                            {isEdit && <Input 
+                            {isEdit && <Input
+                                autoFocus
                                 className='w-[26rem]'
-                                value={resultTitle} 
-                                onChange={(e) => setResultTitle(e.target.value)} 
-                                onBlur={(e) => handleEdit(e)}/>}
-                             {!isEdit && <h1 className="text-primary">{resultTitle}</h1>}
+                                value={resultTitle}
+                                onChange={(e) => setResultTitle(e.target.value)}
+                                onBlur={(e) => handleEdit(resultDetails._id, e)} />}
+                            {!isEdit && <h1 className="text-primary">{resultTitle}</h1>}
                         </CardTitle>
                         <CardAction>
                             <DropdownMenu>
@@ -140,7 +162,7 @@ function Results() {
                                         <span>Edit Title</span>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem variant="destructive" onClick={() => handleDelete(resultDetails)}>
+                                    <DropdownMenuItem variant="destructive" onClick={() => handleDelete(resultDetails._id)}>
                                         <Trash2 />
                                         <span>Delete</span>
                                     </DropdownMenuItem>

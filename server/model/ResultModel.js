@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { type } from 'os';
+import { title } from 'process';
 
 const schema = new mongoose.Schema({
     user_id: {
@@ -16,13 +17,13 @@ const schema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-schema.statics.deleteDoc = async function (result_id) {
-    const result = await this.findOneAndDelete({ _id: result_id });
+schema.statics.deleteDoc = async function (_id) {
+    const result = await this.findOneAndDelete({ _id });
 
     if (!result) {
         throw Error("Result does not exist!");
     }
-    
+
     return result;
 }
 
@@ -47,6 +48,24 @@ schema.statics.getResults = async function (user_id, page, limit) {
             },
         },
     ]);
+
+    return result;
+}
+
+schema.statics.updateDoc = async function (_id, title) {
+    if (typeof title !== 'string') {
+        throw new Error("Title must be a string");
+    }
+    
+    const result = await this.findOneAndUpdate(
+        { _id }, 
+        { title: title },
+        { new: true }
+    )
+
+    if (!result) {
+        throw Error("Result does not exist!");
+    }
 
     return result;
 }
