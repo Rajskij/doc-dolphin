@@ -39,6 +39,10 @@ const breadcrumbsConfig = {
         name: 'Mood History',
         url: '/mood/history'
     }],
+    '/mood/history': [{
+        name: 'Mood History',
+        url: '/mood/history'
+    }]
 };
 
 function ContentHeader({ navHeight }) {
