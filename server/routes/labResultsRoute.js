@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import { authenticate } from '../middleware/auth.js';
 import { parseMedicalTest, getResults, getResult, createReport, deleteResult, updateResult } from '../controllers/labResultsController.js';
 
 const multerOptions = {
@@ -20,17 +21,17 @@ const multerOptions = {
 const upload = multer(multerOptions);
 const routes = express.Router();
 
-routes.post('/analyze', upload.array('files', 10), parseMedicalTest);
+routes.post('/analyze', upload.array('files', 10), authenticate, parseMedicalTest);
 
 routes
     .route('/:result_id')    
-    .get(getResult)
-    .patch(updateResult)
-    .delete(deleteResult);
+    .get(authenticate, getResult)
+    .patch(authenticate, updateResult)
+    .delete(authenticate, deleteResult);
 
 routes
     .route('/user/:user_id')
-    .get(getResults)
-    .post(createReport);
+    .get(authenticate, getResults)
+    .post(authenticate, createReport);
 
 export default routes;
