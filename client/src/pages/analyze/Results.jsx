@@ -78,11 +78,11 @@ function Results() {
                                     setResultTitle(result.title);
                                     setIsEdit(false);
                                 }}>
-                                    <h1 className="text-primary">{result.title || 'Test Summery Report'}</h1>
+                                    <h1 className="text-bold">{result.title || 'Test Summery Report'}</h1>
                                 </CardTitle>
                             </CardHeader>
                             <CardDescription className='ml-6'>{new Date(result.createdAt).toDateString()}</CardDescription>
-                            <p className="truncate px-6">{result.report}</p>
+                            <p className="truncate text-muted-foreground px-6">{result.report}</p>
                         </Card>
                     ))}
                 </div>

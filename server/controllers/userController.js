@@ -26,7 +26,7 @@ async function loginUser(req, res) {
     const { email, password } = req.body;
     try {
         const { _id, fullName } = await User.login(email, password);
-        const token = createToken('_id');
+        const token = createToken(_id);
 
         res.status(201).json({ id: _id, fullName, email, token });
     } catch (err) {

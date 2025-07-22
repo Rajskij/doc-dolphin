@@ -3,6 +3,7 @@ import dotenv from 'dotenv/config';
 import mongoose from 'mongoose';
 import userRoute from './routes/usersRoute.js';
 import testRoute from './routes/labResultsRoute.js';
+import moodJournalRoutes from './routes/moodJournalRoutes.js';
 
 import cors from 'cors';
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 app.use('/api/users', userRoute);
 app.use('/api/results', testRoute);
+app.use('/api/mood-journal', moodJournalRoutes);
 
 app.use((err, req, res, next) => {
     const { status, message } = err;

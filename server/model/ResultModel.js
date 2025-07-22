@@ -70,7 +70,7 @@ schema.statics.updateDoc = async function (_id, title) {
     const result = await this.findOneAndUpdate(
         { _id },
         { title: title },
-        { new: true }
+        { new: true, runValidators: true }
     )
 
     if (!result) {

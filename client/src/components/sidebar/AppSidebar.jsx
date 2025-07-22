@@ -1,20 +1,12 @@
 import * as React from "react"
-import { LifeBuoy, FlaskConical, Home, Send } from "lucide-react";
+import { LifeBuoy, FlaskConical, Home, Send, NotebookPen } from "lucide-react";
 
-import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher"
 import { NavMain } from "@/components/sidebar/NavMain"
-import { NavProjects } from "@/components/nav-projects"
 import { NavSecondary } from "@/components/sidebar/nav-secondary"
-import { NavUser } from "@/components/NavUser"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
 const items = {
@@ -36,6 +28,25 @@ const items = {
         {
           name: 'Results',
           url: '/results'
+        }
+      ]
+    },
+    {
+      icon: NotebookPen,
+      title: 'Mood Journal',
+      url: '#',
+      items: [
+        {
+          name: 'Log Mood',
+          url: '/mood'
+        },
+        {
+          name: 'Mood History',
+          url: '/mood/history'
+        },
+        {
+          name: 'Mood Insights',
+          url: '/mood/insights'
         }
       ]
     }

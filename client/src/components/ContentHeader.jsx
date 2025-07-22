@@ -46,7 +46,7 @@ function ContentHeader({ navHeight }) {
     };
 
     return (
-        <div className={`flex sticky items-center gap-2 px-4 py-2 bg-background shadow-sm rounded-t-xl z-10`} style={{ top: `${navHeight}px` }} >
+        <div className={`flex sticky items-center gap-2 px-4 py-2 bg-background shadow-sm shadow-muted rounded-t-xl z-10`} style={{ top: `${navHeight}px` }} >
             <SidebarTrigger className="-ml-1" />
             <Separator
                 orientation="vertical"
@@ -54,7 +54,7 @@ function ContentHeader({ navHeight }) {
             />
             <Breadcrumb className={`flex`}>
                 <BreadcrumbList>
-                    {getBreadcrumbName(location.pathname).map((path, i) => (
+                    {getBreadcrumbName(location.pathname)?.map((path, i) => (
                         <div key={path} className="flex items-center gap-2">
                             {i !== 0 && <BreadcrumbSeparator className="hidden md:block" />}
                             <BreadcrumbItem className="hidden md:block">
