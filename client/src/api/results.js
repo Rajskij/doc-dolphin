@@ -1,10 +1,13 @@
 import { toast } from "sonner";
 
-async function editResult(result_id, title) {
+async function editResult(token, result_id, title) {
     try {
         const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json' 
+            },
             body: JSON.stringify({ title })
         })
 
@@ -20,11 +23,14 @@ async function editResult(result_id, title) {
     }
 }
 
-async function deleteResult(result_id) {
+async function deleteResult(token, result_id) {
     try {
         const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json' 
+            }
         })
 
         if (!response.ok) {

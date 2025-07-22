@@ -27,7 +27,9 @@ function Results() {
 
     async function getResults() {
         try {
-            const response = await fetch(`http://localhost:8000/api/results/user/${user.id}?page=${page}&limit=${rows}`);
+            const response = await fetch(`http://localhost:8000/api/results/user/${user.id}?page=${page}&limit=${rows}`, {
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            });
             const json = await response.json();
 
             if (!response.ok) {
@@ -51,13 +53,13 @@ function Results() {
 
     async function handleEdit(result_id, event) {
         const title = event.target.value;
-        await editResult(result_id, title)
+        await editResult(user.token, result_id, title)
         setIsEdit(false);
         getResults();
     }
 
     async function handleDelete(result_id) {
-        deleteResult(result_id);
+        deleteResult(user.token, result_id);
         getResults();
     }
     const props = { isEdit, resultTitle, resultDetails, setResultTitle, handleEdit, setIsEdit, handleDelete };
@@ -91,7 +93,12 @@ function Results() {
                     {totalPages > 1 && <Pagination page={page} setPage={setPage} totalPages={totalPages} />}
                 </div>
             </div>
-            {results && !isMobile && <div className="flex-1 overflow-y-auto no-scrollbar">
+            {!resultDetails &&
+                <h1 className="w-full m-auto text-center text-primary text-2xl">
+                    No test results found. Submit your lab tests for analysis to generate insights.
+                </h1>
+            }
+            {resultDetails && !isMobile && <div className="flex-1 overflow-y-auto no-scrollbar">
                 <Card className="@container/card  bg-input group">
                     <CardHeader className='flex items-center justify-between'>
                         <CardTitle>
@@ -101,7 +108,7 @@ function Results() {
                                 value={resultTitle}
                                 onChange={(e) => setResultTitle(e.target.value)}
                                 onBlur={(e) => handleEdit(resultDetails._id, e)} />}
-                            {!isEdit && <Link to={`/result/${resultDetails._id}`}><h1 className="text-primary">{resultTitle}</h1></Link>}
+                            {!isEdit && resultDetails && <Link to={`/result/${resultDetails._id}`}><h1 className="text-primary">{resultTitle}</h1></Link>}
                         </CardTitle>
                         <ResultSummary {...props} />
                     </CardHeader>

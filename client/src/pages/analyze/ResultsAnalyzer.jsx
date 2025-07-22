@@ -40,7 +40,7 @@ function About() {
 
         abortRef.current = new AbortController();
 
-        fetchLabResults(formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef);
+        fetchLabResults(user.token, formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef);
     }
 
     function handleAbort() {
@@ -53,7 +53,7 @@ function About() {
     }
 
     function handleSave() {
-        const result = saveResult(user.id, output);
+        const result = saveResult(user, output);
         setIsSaved(result);
     }
 

@@ -1,8 +1,9 @@
+import { useAuthContext } from "@/hooks/useAuthContext";
 import { toast } from "sonner";
 
 const BASE_URL = 'http://localhost:8000';
 
-async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
+async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;
     toast.loading("Loading report...", { position: "top-center" });
     try {
@@ -10,8 +11,11 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
         const response = await fetch(`${BASE_URL}/api/results/analyze`, {
             method: 'POST',
             body: formData,
-            signal: abortRef.current.signal
-            // Reminder: Headers are automatically set by the browser when using FormData
+            signal: abortRef.current.signal,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                // Reminder: Headers are automatically set by the browser when using FormData
+            },
         });
 
         const reader = response.body
@@ -56,16 +60,19 @@ async function fetchLabResults(formData, setIsLoading, setIsStreaming, setError,
     }
 }
 
-async function saveResult(userId, data) {
+async function saveResult(user, data) {
     try {
         toast.loading("Saving report...", { position: "top-center" });
         const jsonPayload = {
             report: data,
         };
 
-        const response = await fetch(`${BASE_URL}/api/results/user/${userId}`, {
+        const response = await fetch(`${BASE_URL}/api/results/user/${user.id}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Authorization': `Bearer ${user.token}`,
+                'Content-Type': 'application/json' 
+            },
             body: JSON.stringify(jsonPayload)
         });
         const json = await response.json();

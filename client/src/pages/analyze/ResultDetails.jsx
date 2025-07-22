@@ -8,17 +8,21 @@ import ReactMarkdown from 'react-markdown';
 import ResultSummary from "@/components/results-details/ResultSummary";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 function ResultDetails() {
     const [resultDetails, setResultDetails] = useState();
     const [resultTitle, setResultTitle] = useState();
     const [isEdit, setIsEdit] = useState(false);
+    const { user } = useAuthContext();
     const { result_id } = useParams()
     const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchResult(id) {
-            const response = await fetch(`http://localhost:8000/api/results/${id}`);
+            const response = await fetch(`http://localhost:8000/api/results/${id}`, {
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            });
 
             const json = await response.json();
 
@@ -36,12 +40,12 @@ function ResultDetails() {
 
     async function handleEdit(result_id, event) {
         const title = event.target.value;
-        await editResult(result_id, title)
+        await editResult(user.token, result_id, title)
         setIsEdit(false);
     }
 
     async function handleDelete(result_id) {
-        deleteResult(result_id);
+        deleteResult(user.token, result_id);
         navigate('/results')
     }
 
