@@ -1,11 +1,11 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { toast } from "sonner";
+import toast from "@/lib/toast";
 
 const BASE_URL = 'http://localhost:8000';
 
 async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;
-    toast.loading("Loading report...", { position: "top-center" });
+    toast.loading("Loading report...");
     try {
         const start = Date.now();
         const response = await fetch(`${BASE_URL}/api/results/analyze`, {
@@ -40,7 +40,7 @@ async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, se
             const jsonData = JSON.parse(value);
             if (jsonData.error) {
                 setError(jsonData.error);
-                toast.error(jsonData.error || "Failed to fetch results", { position: "top-center" });
+                toast.error(jsonData.error || "Failed to fetch results");
                 break;
             }
             setOutput(prev => prev + jsonData.message?.content);
@@ -48,10 +48,10 @@ async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, se
     } catch (err) {
         if (err.name === 'AbortError') {
             setError(abortRef.current.error);
-            toast.error(abortRef.current.error || "Aborted by User", { position: "top-center" });
+            toast.error(abortRef.current.error || "Aborted by User");
         } else {
             setError(err.message);
-            toast.error(err.message || "An error occurred", { position: "top-center" });
+            toast.error(err.message || "An error occurred");
         }
     } finally {
         setIsStreaming(false);
@@ -62,7 +62,7 @@ async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, se
 
 async function saveResult(user, data) {
     try {
-        toast.loading("Saving report...", { position: "top-center" });
+        toast.loading("Saving report...");
         const jsonPayload = {
             report: data,
         };
@@ -78,15 +78,15 @@ async function saveResult(user, data) {
         const json = await response.json();
 
         if (!response.ok) {
-            toast.error(json.error || "Failed to fetch results", { position: "top-center" });
+            toast.error(json.error || "Failed to fetch results");
             return false;
         }
         toast.dismiss();
-        toast.success("Result saved successfully", { position: "top-center" });
+        toast.success("Result saved successfully");
         return true;
     } catch (err) {
         toast.dismiss();
-        toast.error(err.message || "An error occurred", { position: "top-center" });
+        toast.error(err.message || "An error occurred");
         return false;
     }
 }

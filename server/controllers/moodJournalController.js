@@ -2,7 +2,7 @@ import MoodJournal from '../model/MoodJournal.js';
 
 export async function createEntry(req, res) {
   try {
-    const userId = req.user._id; // Assuming you have authentication middleware
+    const userId = req.user._id;
     const entry = await MoodJournal.createEntry(userId, req.body);
     res.status(201).json(entry);
   } catch (err) {

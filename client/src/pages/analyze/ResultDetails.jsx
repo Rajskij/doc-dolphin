@@ -1,7 +1,7 @@
 import { deleteResult, editResult } from "@/api/results";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import toast from "@/lib/toast";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
 
@@ -27,7 +27,7 @@ function ResultDetails() {
             const json = await response.json();
 
             if (!response.ok) {
-                toast.error(json.error || "Failed to fetch results", { position: "top-center" });
+                toast.error(json.error || "Failed to fetch results");
                 return false;
             }
 

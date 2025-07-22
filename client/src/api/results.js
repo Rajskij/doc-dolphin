@@ -1,4 +1,4 @@
-import { toast } from "sonner";
+import toast from "@/lib/toast";
 
 async function editResult(token, result_id, title) {
     try {
@@ -13,13 +13,13 @@ async function editResult(token, result_id, title) {
 
         const json = await response.json();
         if (!response.ok) {
-            toast.error(json.error || "Failed to fetch results", { position: "top-center" });
+            toast.error(json.error || "Failed to fetch results");
             return;
         }
-        toast.success("Title edited successfully", { position: "top-center" });
+        toast.success("Title edited successfully");
         return json;
     } catch (err) {
-        toast.error(err.message || "An error occurred", { position: "top-center" });
+        toast.error(err.message || "An error occurred");
     }
 }
 
@@ -35,12 +35,12 @@ async function deleteResult(token, result_id) {
 
         if (!response.ok) {
             const json = await response.json();
-            toast.error(json.error || "Failed to fetch results", { position: "top-center" });
+            toast.error(json.error || "Failed to fetch results");
             return;
         }
-        toast.success("Result removed successfully", { position: "top-center" });
+        toast.success("Result removed successfully");
     } catch (err) {
-        toast.error(err.message || "An error occurred", { position: "top-center" });
+        toast.error(err.message || "An error occurred");
     }
 }
 

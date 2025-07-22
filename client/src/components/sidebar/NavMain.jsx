@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 import { CollapsibleContent } from "@radix-ui/react-collapsible";
 
 export function NavMain({ items }) {
-  console.log(items)
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>

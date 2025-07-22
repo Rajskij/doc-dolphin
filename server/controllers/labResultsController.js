@@ -2,7 +2,6 @@ import { combineImageVertically } from '../utils/dataOptimization.js';
 import { PassThrough } from 'stream';
 import { createTitle, processMedicalImages } from '../llm_processor/LlmProcessor.js';
 import ResultModel from '../model/ResultModel.js';
-import ollama from 'ollama'
 
 async function parseMedicalTest(req, res) {
     if (!req.files) {
