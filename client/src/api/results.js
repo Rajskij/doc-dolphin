@@ -1,8 +1,10 @@
 import toast from "@/lib/toast";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 async function editResult(token, result_id, title) {
     try {
-        const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
+        const response = await fetch(`${BASE_URL}/api/results/${result_id}`, {
             method: 'PATCH',
             headers: { 
                 'Authorization': `Bearer ${token}`,
@@ -25,7 +27,7 @@ async function editResult(token, result_id, title) {
 
 async function deleteResult(token, result_id) {
     try {
-        const response = await fetch(`http://localhost:8000/api/results/${result_id}`, {
+        const response = await fetch(`${BASE_URL}/api/results/${result_id}`, {
             method: 'DELETE',
             headers: { 
                 'Authorization': `Bearer ${token}`,

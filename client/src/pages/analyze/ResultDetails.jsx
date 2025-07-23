@@ -10,6 +10,8 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function ResultDetails() {
     const [resultDetails, setResultDetails] = useState();
     const [resultTitle, setResultTitle] = useState();
@@ -20,7 +22,7 @@ function ResultDetails() {
 
     useEffect(() => {
         async function fetchResult(id) {
-            const response = await fetch(`http://localhost:8000/api/results/${id}`, {
+            const response = await fetch(`${BASE_URL}/api/results/${id}`, {
                 headers: { 'Authorization': `Bearer ${user.token}` }
             });
 

@@ -1,7 +1,7 @@
 import { useAuthContext } from "@/hooks/useAuthContext";
 import toast from "@/lib/toast";
 
-const BASE_URL = 'http://localhost:8000';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, setError, setOutput, abortRef) {
     let isFirstChunk = true;

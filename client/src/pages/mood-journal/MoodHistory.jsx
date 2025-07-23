@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuthContext } from "@/hooks/useAuthContext"
 
-const API_URL = "http://localhost:8000/api/mood-journal"
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function MoodHistory() {
     const [data, setData] = useState([])
@@ -31,7 +31,7 @@ function MoodHistory() {
     // Fetch mood records
     const fetchData = async () => {
         try {
-            const res = await fetch(`${API_URL}/${USER_ID}`, {
+            const res = await fetch(`${BASE_URL}/api/mood-journal/${USER_ID}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${TOKEN}`,

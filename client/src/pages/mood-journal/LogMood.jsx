@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import toast from "@/lib/toast";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
 const moods = ["Happy", "Neutral", "Sad", "Excited", "Tired", "Angry"]
 const weatherOptions = ["Sunny", "Cloudy", "Rainy", "Snowy", "Stormy"]
 const activityOptions = ["Work", "Study", "Exercise", "Art", "Music", "Reading",
@@ -49,7 +50,7 @@ export default function LogMood() {
         toast.loading("Saving mood...")
         try {
             console.log(data);
-            const response = await fetch(`http://localhost:8000/api/mood-journal/${user.id}`, {
+            const response = await fetch(`${BASE_URL}/api/mood-journal/${user.id}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${user.token}`,

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 const breadcrumbsConfig = {
     '/': [{
@@ -71,7 +71,7 @@ function ContentHeader({ navHeight }) {
                             {i !== 0 && <BreadcrumbSeparator className="hidden md:block" />}
                             <BreadcrumbItem className="hidden md:block">
                                 {i === 0
-                                    ? <BreadcrumbLink href={path.url}>{path.name}</BreadcrumbLink>
+                                    ? <Link to={path.url}>{path.name}</Link>
                                     : path.name
                                 }
                             </BreadcrumbItem>

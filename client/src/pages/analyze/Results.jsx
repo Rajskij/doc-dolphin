@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { deleteResult, editResult } from "@/api/results";
 import ResultSummary from "@/components/results-details/ResultSummary";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Results() {
     const [resultDetails, setResultDetails] = useState();
     const [results, setResults] = useState(null);
@@ -27,7 +29,7 @@ function Results() {
 
     async function getResults() {
         try {
-            const response = await fetch(`http://localhost:8000/api/results/user/${user.id}?page=${page}&limit=${rows}`, {
+            const response = await fetch(`${BASE_URL}/api/results/user/${user.id}?page=${page}&limit=${rows}`, {
                 headers: { 'Authorization': `Bearer ${user.token}` }
             });
             const json = await response.json();
