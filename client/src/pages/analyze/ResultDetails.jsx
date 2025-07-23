@@ -52,7 +52,7 @@ function ResultDetails() {
     const props = { isEdit, resultTitle, resultDetails, setResultTitle, handleEdit, setIsEdit, handleDelete };
 
     return (
-        <Card className="@container/card  bg-input group">
+        <Card className="@container/card group">
             <CardHeader className='flex items-center justify-between'>
                 <CardTitle>
                     {isEdit && <Input

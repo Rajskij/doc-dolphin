@@ -145,26 +145,20 @@ async function fetchMoodInsights(
             }
 
             try {
-                // If backend sends chunks like `{ "message": "..." }`
                 const jsonChunk = JSON.parse(value);
-                console.log(jsonChunk)
-                if (jsonChunk.error) {
-                    setError(jsonChunk.error);
+                if (jsonChunk.error || !jsonChunk.message) {
                     toast.error(jsonChunk.error || "Insight generation failed");
                     break;
                 }
-                setOutput(prev => prev + jsonChunk.message?.content);
+                setOutput(prev => prev + jsonChunk.message.content);
             } catch (parseErr) {
-                // If backend sends raw text (not JSON chunks)
                 setOutput(prev => prev + value);
             }
         }
     } catch (err) {
         if (err.name === "AbortError") {
-            setError(abortRef.current.error || "Request was aborted.");
             toast.error(abortRef.current.error || "Request aborted");
         } else {
-            setError(err.message);
             toast.error(err.message || "An error occurred");
         }
     } finally {

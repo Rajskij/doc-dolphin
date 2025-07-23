@@ -26,8 +26,6 @@ function MoodInsights() {
     const abortRef = useRef();
 
     const generateInsights = async () => {
-        console.log(startDate, endDate)
-
         abortRef.current = new AbortController();
         await fetchMoodInsights(user.token, user.id, startDate, endDate, setIsLoading, setIsStreaming, setOutput, abortRef);
     }

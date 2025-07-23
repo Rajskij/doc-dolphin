@@ -67,9 +67,9 @@ function Results() {
     return (
         <div className="flex w-full gap-4 h-[calc(100vh-11rem)]">
             <div className="flex flex-1 flex-col justify-between overflow-y-auto no-scrollbar">
-                <div>
+                <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
                     {results && results.map(result => (
-                        <Card key={result._id} className="@container/card min-h-50 mb-4 ">
+                        <Card key={result._id} className="@container/card min-h-50">
                             <CardHeader className='flex items-center justify-between'>
                                 <CardTitle className='cursor-pointer' onClick={() => {
                                     if (isMobile) {
@@ -88,7 +88,7 @@ function Results() {
                         </Card>
                     ))}
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between my-4">
                     <DropdownSelector rows={rows} setRows={setRows} />
                     {totalPages > 1 && <Pagination page={page} setPage={setPage} totalPages={totalPages} />}
                 </div>
@@ -99,7 +99,7 @@ function Results() {
                 </h1>
             }
             {resultDetails && !isMobile && <div className="flex-1 overflow-y-auto no-scrollbar">
-                <Card className="@container/card  bg-input group">
+                <Card className="@container/card group">
                     <CardHeader className='flex items-center justify-between'>
                         <CardTitle>
                             {isEdit && <Input

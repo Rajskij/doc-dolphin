@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const moodJournalSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     user_id: {
         type: String,
         required: true
@@ -30,20 +30,22 @@ const moodJournalSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-moodJournalSchema.statics.createMood = async function (user_id, data) {
+schema.index({ user_id: 1 }); 
+
+schema.statics.createMood = async function (user_id, data) {
     const entry = new this({ user_id, ...data });
     return await entry.save();
 };
 
-moodJournalSchema.statics.getMoods = async function (user_id) {
+schema.statics.getMoods = async function (user_id) {
     return await this.find({ user_id }).sort({ date: -1 });
 };
 
-moodJournalSchema.statics.getMood = async function (_id) {
+schema.statics.getMood = async function (_id) {
     return await this.findOne({ _id });
 };
 
-moodJournalSchema.statics.updateMood = async function (_id, data) {
+schema.statics.updateMood = async function (_id, data) {
     return await this.findOneAndUpdate(
         { _id },
         data,
@@ -51,11 +53,11 @@ moodJournalSchema.statics.updateMood = async function (_id, data) {
     );
 };
 
-moodJournalSchema.statics.deleteMood = async function (_id) {
+schema.statics.deleteMood = async function (_id) {
     return await this.findOneAndDelete({ _id });
 };
 
-moodJournalSchema.statics.getMoodsByDate = async function (user_id, startDate, endDate) {
+schema.statics.getMoodsByDate = async function (user_id, startDate, endDate) {
     return await this.find({
         user_id, 
         date: {
@@ -65,4 +67,4 @@ moodJournalSchema.statics.getMoodsByDate = async function (user_id, startDate, e
     });    
 };
 
-export default mongoose.model('MoodJournal', moodJournalSchema);
+export default mongoose.model('MoodJournal', schema);

@@ -17,6 +17,8 @@ const schema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+schema.index({ user_id: 1 }); 
+
 schema.statics.deleteDoc = async function (_id) {
     const result = await this.findOneAndDelete({ _id });
 
