@@ -56,7 +56,6 @@ async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, se
     } finally {
         setIsStreaming(false);
         setIsLoading(false);
-        toast.dismiss();
     }
 }
 
@@ -164,7 +163,6 @@ async function fetchMoodInsights(
     } finally {
         setIsStreaming(false);
         setIsLoading(false);
-        toast.dismiss();
     }
 }
 

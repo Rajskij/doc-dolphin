@@ -1,4 +1,4 @@
-import ollama from 'ollama'
+import { Ollama } from 'ollama'
 import { MEDICAL_PROMPT, MEDICAL_PROMPT_GENERAL, EXTRACT_DATA_PROMPT } from '../utils/prompt.js'
 
 // llama3.2-vision:11b-instruct-q4_K_M
@@ -8,11 +8,12 @@ import { MEDICAL_PROMPT, MEDICAL_PROMPT_GENERAL, EXTRACT_DATA_PROMPT } from '../
 // llava:13b - ?
 // qwen2.5vl:7b-q4_K_M - should be best in OCR but time 56.022 sec.
 const MODEL = 'llava-llama3:8b-v1.1-fp16'
+const ollama = new Ollama({ host: process.env.OLLAMA_URL })
 
 async function processMedicalImages(combinedImg) {
     const base64Image = combinedImg.toString('base64');
-
     console.log('Processing data...');
+
     return await ollama.chat({
         model: MODEL,
         messages: [
@@ -49,6 +50,8 @@ ${report.substring(0, 2000)}...
 }
 
 async function analyzeMoodInsights(moodRecords) {
+    console.log('Processing data...');
+
     const moodText = moodRecords.map((entry) => {
         return `
         Date: ${new Date(entry.date).toDateString()}

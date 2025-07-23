@@ -80,7 +80,7 @@ function About() {
                         </Button>
                         <Button
                             onClick={handleSave}
-                            disabled={output === INFO || isLoading || isStreaming || isSaved}
+                            disabled={output === '' || output === INFO || isLoading || isStreaming || isSaved}
                         >
                             Save
                         </Button>

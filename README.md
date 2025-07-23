@@ -27,7 +27,7 @@
 - Personalized tips based on your journal entries
 - Early detection of concerning trends
 
-## Installation 💻
+## Installation
 
 ### Clone the repository:
 
