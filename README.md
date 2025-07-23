@@ -1,5 +1,7 @@
 # Doc Dolphin
 
+**Live Demo**: [doc-dolphin.app](https://doc-dolphin.netlify.app)
+
 **Doc Dolphin** is an AI-powered mental health companion that helps you analyze psychological tests, track mood patterns, and gain meaningful insights about your emotional well-being.
 
 ## Features
