@@ -9,11 +9,11 @@ async function parseMedicalTest(req, res) {
     }
     const files = req.files;
 
-    // Create a stream for progressive output
-    const stream = new PassThrough();
     res.setHeader('Content-Type', 'text/event-stream');
     // res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
+    // Create a stream for progressive output
+    const stream = new PassThrough();
     stream.pipe(res);
 
     try {

@@ -1,5 +1,9 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { format } from "date-fns"
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+import { CalendarIcon } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import {
     Popover,
@@ -7,17 +11,32 @@ import {
     PopoverContent,
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import { CalendarIcon } from "lucide-react"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { useAuthContext } from "@/hooks/useAuthContext"
+import { fetchMoodInsights } from "@/api/analyzer"
+import { Separator } from "@/components/ui/separator";
 
 function MoodInsights() {
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
-    const [insights, setInsights] = useState(null)
+    const [output, setOutput] = useState(null)
+    const [isLoading, setIsLoading] = useState(false);
+    const [isStreaming, setIsStreaming] = useState(false);
+    const { user } = useAuthContext();
+    const abortRef = useRef();
 
     const generateInsights = async () => {
-        setInsights(`Between ${format(startDate, "PPP")} and ${format(endDate, "PPP")} you mostly felt good. AI insight: Remember to stay hydrated and take breaks.`)
+        console.log(startDate, endDate)
+
+        abortRef.current = new AbortController();
+        await fetchMoodInsights(user.token, user.id, startDate, endDate, setIsLoading, setIsStreaming, setOutput, abortRef);
+    }
+
+    function handleAbort() {
+        if (abortRef.current) {
+            abortRef.current.error = 'Processing was stopped by the User';
+            abortRef.current.abort();
+        }
     }
 
     return (
@@ -73,17 +92,35 @@ function MoodInsights() {
                     </div>
 
 
-                    <Button onClick={generateInsights}>Generate Insights</Button>
+                    <Button 
+                        onClick={generateInsights} 
+                        className='mt-4' 
+                        disabled={!startDate || !endDate || isStreaming || isLoading}
+                    >
+                        Generate Insights
+                    </Button>
                 </CardContent>
             </Card>
 
             {/* AI Insights Output */}
             <Card className='flex-1'>
-                <CardHeader>
-                    <CardTitle>Insight Summary</CardTitle>
+                <CardHeader className='flex items-center justify-between'>
+                    <CardTitle>
+                        <h1 className="text-primary">Insight Summary</h1>
+                    </CardTitle>
+                    <CardAction>
+                        <Button variant='secondary'
+                            className='mr-4'
+                            onClick={handleAbort}
+                            disabled={!isLoading && !isStreaming}
+                        >
+                            Stop
+                        </Button>
+                    </CardAction>
                 </CardHeader>
+                <Separator />
                 <CardContent>
-                    <Textarea value={insights} readOnly className="min-h-[150px]" />
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
                 </CardContent>
             </Card>
         </div>

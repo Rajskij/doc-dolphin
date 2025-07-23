@@ -30,20 +30,20 @@ const moodJournalSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-moodJournalSchema.statics.createEntry = async function (user_id, data) {
+moodJournalSchema.statics.createMood = async function (user_id, data) {
     const entry = new this({ user_id, ...data });
     return await entry.save();
 };
 
-moodJournalSchema.statics.getUserEntries = async function (user_id) {
+moodJournalSchema.statics.getMoods = async function (user_id) {
     return await this.find({ user_id }).sort({ date: -1 });
 };
 
-moodJournalSchema.statics.getUserEntry = async function (_id) {
+moodJournalSchema.statics.getMood = async function (_id) {
     return await this.findOne({ _id });
 };
 
-moodJournalSchema.statics.updateUserEntry = async function (_id, data) {
+moodJournalSchema.statics.updateMood = async function (_id, data) {
     return await this.findOneAndUpdate(
         { _id },
         data,
@@ -51,8 +51,18 @@ moodJournalSchema.statics.updateUserEntry = async function (_id, data) {
     );
 };
 
-moodJournalSchema.statics.deleteUserEntry = async function (_id) {
+moodJournalSchema.statics.deleteMood = async function (_id) {
     return await this.findOneAndDelete({ _id });
+};
+
+moodJournalSchema.statics.getMoodsByDate = async function (user_id, startDate, endDate) {
+    return await this.find({
+        user_id, 
+        date: {
+            $gte: startDate,
+            $lte: endDate
+        }
+    });    
 };
 
 export default mongoose.model('MoodJournal', moodJournalSchema);

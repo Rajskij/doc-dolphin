@@ -48,4 +48,32 @@ ${report.substring(0, 2000)}...
     return result.message.content
 }
 
-export { processMedicalImages, createTitle };
+async function analyzeMoodInsights(moodRecords) {
+    const moodText = moodRecords.map((entry) => {
+        return `
+        Date: ${new Date(entry.date).toDateString()}
+        Mood: ${entry.mood}
+        Weather: ${entry.weather}
+        Activities: ${entry.activities.join(", ")}
+        Note: ${entry.note || "None"}`.trim()
+    }).join("\n\n")
+
+    const prompt = `
+You are an expert in emotional well-being. Analyze the following mood journal entries and provide a brief insight report.
+Give a short summary of mood trends, recurring activities, and any recommendations for emotional improvement. Avoid repeating dates.
+Mood Journal Entries:
+${moodText.substring(0, 4000)}`.trim()
+
+    return await ollama.chat({
+        model: MODEL,
+        messages: [
+            {
+                role: 'user',
+                content: prompt
+            }
+        ],
+        stream: true 
+    });
+}
+
+export { processMedicalImages, createTitle, analyzeMoodInsights };

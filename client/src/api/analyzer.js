@@ -69,9 +69,9 @@ async function saveResult(user, data) {
 
         const response = await fetch(`${BASE_URL}/api/results/user/${user.id}`, {
             method: 'POST',
-            headers: { 
+            headers: {
                 'Authorization': `Bearer ${user.token}`,
-                'Content-Type': 'application/json' 
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(jsonPayload)
         });
@@ -91,4 +91,87 @@ async function saveResult(user, data) {
     }
 }
 
-export { fetchLabResults, saveResult };
+async function fetchMoodInsights(
+    token,
+    userId,
+    startDate,
+    endDate,
+    setIsLoading,
+    setIsStreaming,
+    setOutput,
+    abortRef,
+) {
+    setOutput('');
+    setIsLoading(true);
+    let isFirstChunk = true;
+    toast.loading("Generating insights...");
+
+    try {
+        const start = Date.now();
+        const response = await fetch(`${BASE_URL}/api/mood-journal/analyze/${userId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            signal: abortRef.current.signal,
+            body: JSON.stringify({
+                user_id: userId,
+                startDate,
+                endDate,
+            }),
+        });
+
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error || "Failed to fetch insights.");
+        }
+
+        const reader = response.body
+            .pipeThrough(new TextDecoderStream())
+            .getReader();
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            if (isFirstChunk) {
+                toast.dismiss();
+                setIsLoading(false);
+                setIsStreaming(true);
+                const duration = (Date.now() - start) / 1000;
+                console.log(`Request took ${duration} seconds`);
+                isFirstChunk = false;
+            }
+
+            try {
+                // If backend sends chunks like `{ "message": "..." }`
+                const jsonChunk = JSON.parse(value);
+                console.log(jsonChunk)
+                if (jsonChunk.error) {
+                    setError(jsonChunk.error);
+                    toast.error(jsonChunk.error || "Insight generation failed");
+                    break;
+                }
+                setOutput(prev => prev + jsonChunk.message?.content);
+            } catch (parseErr) {
+                // If backend sends raw text (not JSON chunks)
+                setOutput(prev => prev + value);
+            }
+        }
+    } catch (err) {
+        if (err.name === "AbortError") {
+            setError(abortRef.current.error || "Request was aborted.");
+            toast.error(abortRef.current.error || "Request aborted");
+        } else {
+            setError(err.message);
+            toast.error(err.message || "An error occurred");
+        }
+    } finally {
+        setIsStreaming(false);
+        setIsLoading(false);
+        toast.dismiss();
+    }
+}
+
+export { fetchLabResults, saveResult, fetchMoodInsights };
