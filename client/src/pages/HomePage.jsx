@@ -71,7 +71,7 @@ export default function HomePage() {
               </ul>
               <img
                 src={getImgUrl('/results')}
-                alt="Analysis Interface"
+                alt="Results Dashboard"
                 className="rounded-lg  shadow-sm"
               />
               <Button className="py-2 px-4" onClick={() => handleClick('/analyze')}>
@@ -92,17 +92,18 @@ export default function HomePage() {
               </ul>
               <img
                 src={getImgUrl('/log-mood')}
-                alt="Analysis Interface"
+                alt="Mood Journal"
                 className="rounded-lg  shadow-sm"
               />
               <h2 className="text-xl font-semibold">Mood History</h2>
               <ul className="text-muted-foreground list-disc pl-4">
                 <li>See trends in your emotional state over days, weeks, or months.</li>
-                <li>Filter by mood type, tags, or intensity.</li>
+                <li>Modify existing entries.</li>
+                <li>Remove unwanted records.</li>
               </ul>
               <img
                 src={getImgUrl('/mood-history')}
-                alt="Analysis Interface"
+                alt="Mood History"
                 className="rounded-lg  shadow-sm"
               />
               <h2 className="text-xl font-semibold">Mood Insights</h2>
@@ -112,7 +113,7 @@ export default function HomePage() {
               </ul>
               <img
                 src={getImgUrl('/mood-insights')}
-                alt="Analysis Interface"
+                alt="Mood Insights"
                 className="rounded-lg  shadow-sm"
               />
               <Button className="py-2 px-4" onClick={() => handleClick('/mood')}>
