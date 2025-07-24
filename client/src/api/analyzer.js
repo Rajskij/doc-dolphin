@@ -36,7 +36,6 @@ async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, se
                 console.log(`Request took ${duration / 1000}seconds`);
             }
 
-            // console.log('Received value: ', value);
             const jsonData = JSON.parse(value);
             if (jsonData.error) {
                 setError(jsonData.error);
@@ -155,11 +154,13 @@ async function fetchMoodInsights(
             }
         }
     } catch (err) {
+        toast.dismiss();
         if (err.name === "AbortError") {
             toast.error(abortRef.current.error || "Request aborted");
         } else {
             toast.error(err.message || "An error occurred");
         }
+        console.error('Error: ', err)
     } finally {
         setIsStreaming(false);
         setIsLoading(false);

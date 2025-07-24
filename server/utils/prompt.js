@@ -58,3 +58,10 @@ Please carefully read all test names, values, units, and reference ranges, and c
 |-----------|--------|------|------------------|------|
 
 If something is unclear, still include it but note 'unclear' in the table.`
+
+export const TITLE_PROMPT = `Based on this medical report, generate a concise, meaningful title NO MORE THEN 5 WORDS!
+that captures the main health concern:`;
+
+export const MOOD_PROMPT = `You are an expert in emotional well-being. Analyze the following mood journal entries and provide a brief insight report.
+Give a short summary of mood trends, recurring activities, and any recommendations for emotional improvement. Avoid repeating dates.
+Mood Journal Entries:`

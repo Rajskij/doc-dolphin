@@ -29,7 +29,6 @@ export function LoginForm({ className, ...props }) {
   }
 
   function handleSubmit(e) {
-    console.log('Submit was clicked')
     e.preventDefault();
     login(email, password);
   }

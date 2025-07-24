@@ -58,7 +58,7 @@ function MoodHistory() {
 
     const handleDelete = async (id) => {
         try {
-            await fetch(`${API_URL}/mood/${id}`, {
+            await fetch(`${BASE_URL}/api/mood-journal/mood/${id}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: `Bearer ${TOKEN}`,
@@ -79,7 +79,7 @@ function MoodHistory() {
     // Save updated note
     const handleSave = async (record) => {
         try {
-            await fetch(`${API_URL}/mood/${record._id}`, {
+            await fetch(`${BASE_URL}/api/mood-journal/mood/${record._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -100,9 +100,9 @@ function MoodHistory() {
     }
 
     return (
-        <div className="min-h-[calc(100vh-11rem)]">
+        <div className="min-h-[calc(100vh-11rem)] overflow-x-auto">
             <h1 className="text-2xl font-bold mb-4">Mood History</h1>
-            <Table className="min-w-full">
+            <Table className="min-w-[800px]">
                 <TableHeader>
                     <TableRow>
                         <TableHead>Date</TableHead>
@@ -142,7 +142,7 @@ function MoodHistory() {
                                 </TableCell>
 
                                 {/* Note */}
-                                <TableCell className="max-w-[250px] break-words">
+                                <TableCell className="flex flex-1 break-words">
                                     {editId === entry._id ? (
                                         <Textarea
                                             ref={inputRef}

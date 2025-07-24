@@ -23,7 +23,7 @@ function MainLayout({ user }) {
             <div className={`flex justify-center ${isStaticWidth && 'max-w-7xl'} w-full`}>
                 {user && <AppSidebar variant="inset" style={{ top: `${navHeight}px` }} />}
                 {/* Main Content Area */}
-                <SidebarInset ref={insetRef} className='mb-4 rounded-2xl'>
+                <SidebarInset state='collapsed' ref={insetRef} className='mb-4 rounded-2xl'>
                     {user && <ContentHeader navHeight={navHeight} />}
                     <MainContent user={user} insetRef={insetRef} navHeight={navHeight}>
                         <Outlet />

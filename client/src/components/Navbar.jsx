@@ -14,12 +14,11 @@ import { useIsMobile } from "@/hooks/use-mobile";
 function Navbar({ navbarRef, isStaticWidth, setWidth }) {
     const { theme, setTheme } = useTheme()
     const { user } = useAuthContext();
-    const {isMobile} = useIsMobile();
+    const isMobile = useIsMobile();
 
     const userData = user && {
         name: user.fullName,
-        email: user.email,
-        avatar: "/avatars/shadcn.jpg",
+        email: user.email
     };
 
     return (
@@ -30,13 +29,13 @@ function Navbar({ navbarRef, isStaticWidth, setWidth }) {
                     {!isMobile && <h1 className='text-xl font-bold'>Doc Dolphin</h1>}
                 </Link>
                 <div className='flex items-center' style={{ '--nav-height': `${navbarRef.current?.offsetHeight / 2}px` }}>
-                    <div className={`flex items-center justify-center`}>
+                    <div className={`flex items-center justify-center mr-2`}>
                         <ThemeSwitcher value={theme} onChange={setTheme} />
                     </div>
-                    <Separator orientation="vertical" className="mx-3 data-[orientation=vertical]:h-[var(--nav-height)] bg-sidebar-border" />
-                    <Toggle onClick={() => setWidth(!isStaticWidth)} className='my-auto'>
+                    {!isMobile &&<Separator orientation="vertical" className="mx-3 data-[orientation=vertical]:h-[var(--nav-height)] bg-sidebar-border" />}
+                    {!isMobile && <Toggle onClick={() => setWidth(!isStaticWidth)} className='my-auto'>
                         <GalleryHorizontalIcon />
-                    </Toggle>
+                    </Toggle>}
                     <Separator orientation="vertical" className="mx-3 data-[orientation=vertical]:h-[var(--nav-height)] bg-sidebar-border" />
                     {user && <NavUser user={userData} />}
                     {!user && <Link to="/login" className="ml-1"><Button>Log In</Button></Link>}

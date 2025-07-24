@@ -19,7 +19,6 @@ function Signup() {
     }, [user]);
 
     function handleSubmit(e) {
-        console.log('Submit was clicked')
         e.preventDefault();
         signup(email, password);
     }

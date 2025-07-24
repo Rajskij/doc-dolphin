@@ -1,8 +1,6 @@
 
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
-import { useLogin } from "@/hooks/useLogin";
+import { useState } from "react";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 import { cn } from "@/lib/utils"
@@ -24,14 +22,12 @@ export function SignupForm({ className, ...props }) {
   const [password, setPassword] = useState('');
   const { signup, error, isLoading } = useSignup();
   const { authIsReady } = useAuthContext();
-  const navigate = useNavigate();
 
   if (!authIsReady) {
-    return null; // add loading spinner if you have time
+    return null;
   }
 
   function handleSubmit(e) {
-    console.log('Submit was clicked')
     e.preventDefault();
     signup(fullName, email, password);
   }

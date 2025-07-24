@@ -29,7 +29,6 @@ export function useSignup() {
                 setError(json.error);
             }
         } catch (err) {
-            console.log(err.message);
             setError(err.message);
             throw err;
         } finally {

@@ -34,7 +34,6 @@ export function FileUpload({ handleSubmit, isLoading, isStreaming }) {
       maxFiles: 10,
     },
   });
-  // console.log(dropzone)
 
   return (
     <div className="not-prose flex flex-col gap-4">

@@ -93,11 +93,16 @@ function About() {
                     <Skeleton className='h-4 w-full' />
                     <Skeleton className='h-4 w-[90%]' />
                 </div>}
-                <CardAction className='px-6'>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
-                    {/* <p>{output}</p> */}
-                    {/* {error && <><br /><h2 className="text-red-400">{error}</h2></>} */}
-                </CardAction>
+                <div className="relative">
+                    <div className="overflow-x-auto no-scrollbar">
+                        <div className="p-4 min-w-[800px]">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
+                        </div>
+                    </div>
+                    {/* gradient overlays */}
+                    <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-card to-transparent pointer-events-none" />
+                    <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-card to-transparent pointer-events-none" />
+                </div>
             </Card>
         </div>
     );

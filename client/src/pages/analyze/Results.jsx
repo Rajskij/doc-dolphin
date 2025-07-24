@@ -38,7 +38,6 @@ function Results() {
                 toast.error(json.error || "Failed to fetch results");
                 return;
             }
-            console.log(json.results)
 
             setResultDetails(json?.results[0]);
             setResultTitle(json?.results[0]?.title);
@@ -103,10 +102,9 @@ function Results() {
             {resultDetails && !isMobile && <div className="flex-1 overflow-y-auto no-scrollbar">
                 <Card className="@container/card group">
                     <CardHeader className='flex items-center justify-between'>
-                        <CardTitle>
+                        <CardTitle className='flex flex-1'>
                             {isEdit && <Input
                                 autoFocus
-                                className='w-[26rem]'
                                 value={resultTitle}
                                 onChange={(e) => setResultTitle(e.target.value)}
                                 onBlur={(e) => handleEdit(resultDetails._id, e)} />}
@@ -114,8 +112,15 @@ function Results() {
                         </CardTitle>
                         <ResultSummary {...props} />
                     </CardHeader>
-                    <div className="p-4 overflow-hidden">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{resultDetails.report}</ReactMarkdown>
+                    <div className="relative">
+                        <div className="overflow-x-auto no-scrollbar">
+                            <div className="p-4 min-w-[800px]">
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{resultDetails?.report}</ReactMarkdown>
+                            </div>
+                        </div>
+                        {/* gradient overlays */}
+                        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-card to-transparent pointer-events-none" />
+                        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-card to-transparent pointer-events-none" />
                     </div>
                 </Card>
             </div>}

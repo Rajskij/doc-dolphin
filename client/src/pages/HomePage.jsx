@@ -10,7 +10,6 @@ export default function HomePage() {
   const { user } = useAuthContext()
   const { theme } = useTheme();
 
-  console.log('this is theme', getImgUrl('/analyzer'))
 
   function getImgUrl(img) {
     let color = theme;

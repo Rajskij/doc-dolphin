@@ -30,7 +30,6 @@ export function useLogin() {
             }
         } catch (err) {
             setError(err.message);
-            console.log(err.message);
             throw err;
         } finally {
             setIsLoading(false);

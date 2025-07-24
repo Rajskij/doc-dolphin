@@ -64,8 +64,6 @@ async function createReport(req, res) {
         const report = req.body.report;
         const title = await createTitle(report);
 
-        console.log(title)
-
         const result = await ResultModel.createDoc(id, report, title);
 
         res.status(201).json(result);

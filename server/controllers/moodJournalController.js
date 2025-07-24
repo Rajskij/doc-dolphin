@@ -67,7 +67,10 @@ export async function generateMoodInsights(req, res) {
   }
 
   const moods = await MoodJournal.getMoodsByDate(user_id, start, end);
-
+  
+  if (moods.length < 1) {
+    return res.status(400).json({ error: "Entry not found for this date" });
+  }
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Connection', 'keep-alive');
   const stream = new PassThrough();

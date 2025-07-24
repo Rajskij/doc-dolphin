@@ -49,7 +49,6 @@ export default function LogMood() {
     async function onSubmit(data) {
         toast.loading("Saving mood...")
         try {
-            console.log(data);
             const response = await fetch(`${BASE_URL}/api/mood-journal/${user.id}`, {
                 method: 'POST',
                 headers: {

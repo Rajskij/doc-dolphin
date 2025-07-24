@@ -6,7 +6,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { CardAction } from "@/components/ui/card"
-import { Ellipsis, Pen, Trash2 } from "lucide-react";
+import { Ellipsis, EllipsisVertical, Pen, Trash2 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 function ResultSummary({ resultDetails, setIsEdit, handleDelete }) {
@@ -16,8 +16,8 @@ function ResultSummary({ resultDetails, setIsEdit, handleDelete }) {
         <CardAction>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <button className="p-1 opacity-0 group-hover:opacity-100 rounded-sm hover:bg-accent data-[state=open]:opacity-100 ">
-                        <Ellipsis />
+                    <button className="p-1 rounded-sm hover:bg-accent">
+                        <EllipsisVertical />
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
