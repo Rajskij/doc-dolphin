@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 
 function MoodInsights() {
     const [startDate, setStartDate] = useState(null)
-    const [endDate, setEndDate] = useState(null)
+    const [endDate, setEndDate] = useState(new Date)
     const [output, setOutput] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
     const [isStreaming, setIsStreaming] = useState(false);

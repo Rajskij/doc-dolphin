@@ -45,6 +45,7 @@ async function fetchLabResults(token, formData, setIsLoading, setIsStreaming, se
             setOutput(prev => prev + jsonData.message?.content);
         }
     } catch (err) {
+        toast.dismiss();
         if (err.name === 'AbortError') {
             setError(abortRef.current.error);
             toast.error(abortRef.current.error || "Aborted by User");
