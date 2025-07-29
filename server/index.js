@@ -19,7 +19,7 @@ app.use('/api/mood-journal', moodJournalRoutes);
 
 app.use((err, req, res, next) => {
     const { status, message } = err;
-    console.log(err)
+    console.error(err)
     res.status(status ? status : 500).json(message ? message : 'Server Error');
 })
 
