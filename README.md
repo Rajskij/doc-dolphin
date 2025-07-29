@@ -2,7 +2,7 @@
 
 **Live Demo**: [doc-dolphin.app](https://doc-dolphin.netlify.app)
 
-**Project Management**: [Trello Board](https://trello.com/b/YPy1X7Pj)
+**Project Management**: [Trello Board](https://trello.com/invite/b/68765b283bea634cb81d201a/ATTI4212a377d617cc4c24f9b3109b31484f0A39F776/capstone)
 
 **Doc Dolphin** is an AI-powered health companion that helps you analyze medical tests, track mood patterns, and gain meaningful insights about your emotional well-being.
 
