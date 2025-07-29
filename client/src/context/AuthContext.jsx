@@ -27,7 +27,7 @@ export function AuthContextProvider({ children }) {
         setAuthIsReady(true);
     }, []);
 
-    console.log("🚀 ~ AuthContextProvider ~ state:", state);
+    // console.log("🚀 ~ AuthContextProvider ~ state:", state);
 
     return (
         <AuthContext.Provider value={{ ...state, dispatch, authIsReady }}>
