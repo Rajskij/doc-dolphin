@@ -1,6 +1,4 @@
 import sharp from 'sharp';
-import fs from 'fs';
-import path from 'path';
 
 export async function optimizeImage(buffer) {
     try {
@@ -64,9 +62,6 @@ export async function combineImageVertically(imageBuffers) {
             .grayscale()
             .jpeg({ quality: 70 })
             .toBuffer();
-
-        const outputPath = path.join(process.cwd(), 'merged_output.jpg');
-        fs.writeFile(outputPath, mergedImg, (err) => err && console.error(err));
 
         return mergedImg;
     } catch (error) {

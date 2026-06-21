@@ -41,20 +41,20 @@ schema.statics.getMoods = async function (user_id) {
     return await this.find({ user_id }).sort({ date: -1 });
 };
 
-schema.statics.getMood = async function (_id) {
-    return await this.findOne({ _id });
+schema.statics.getMood = async function (_id, user_id) {
+    return await this.findOne({ _id, user_id });
 };
 
-schema.statics.updateMood = async function (_id, data) {
+schema.statics.updateMood = async function (_id, user_id, data) {
     return await this.findOneAndUpdate(
-        { _id },
+        { _id, user_id },
         data,
         { new: true, runValidators: true }
     );
 };
 
-schema.statics.deleteMood = async function (_id) {
-    return await this.findOneAndDelete({ _id });
+schema.statics.deleteMood = async function (_id, user_id) {
+    return await this.findOneAndDelete({ _id, user_id });
 };
 
 schema.statics.getMoodsByDate = async function (user_id, startDate, endDate) {

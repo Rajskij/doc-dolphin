@@ -33,8 +33,7 @@ async function parseMedicalTest(req, res) {
 
 async function getResult(req, res) {
     try {
-        const id = req.params.result_id;
-        const results = await ResultModel.getResult(id);
+        const results = await ResultModel.getResult(req.params.result_id, String(req.user._id));
         res.status(201).json({ results });
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -43,7 +42,7 @@ async function getResult(req, res) {
 
 async function getResults(req, res) {
     try {
-        const id = req.params.user_id;
+        const id = String(req.user._id);
         const page = parseInt(req.query?.page) || 1;
         const limit = parseInt(req.query?.limit) || 10;
 
@@ -60,7 +59,7 @@ async function getResults(req, res) {
 
 async function createReport(req, res) {
     try {
-        const id = req.params.user_id;
+        const id = String(req.user._id);
         const report = req.body.report;
         const title = await createTitle(report);
 
@@ -74,8 +73,7 @@ async function createReport(req, res) {
 
 async function deleteResult(req, res) {
     try {
-        console.log(req.params);
-        await ResultModel.deleteDoc(req.params.result_id);
+        await ResultModel.deleteDoc(req.params.result_id, String(req.user._id));
         res.status(204).end();
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -87,7 +85,7 @@ async function updateResult(req, res) {
         const id = req.params.result_id;
         const title = req.body.title;
 
-        const result = await ResultModel.updateDoc(id, title);
+        const result = await ResultModel.updateDoc(id, String(req.user._id), title);
         res.status(201).json(result);
     } catch (err) {
         res.status(400).json({ error: err.message });
