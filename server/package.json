@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "doc-dolphin-server",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -10,19 +10,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Doc Dolphin API — Express + MongoDB + Ollama vision-LLM backend",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
-    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.1",
     "multer": "^2.0.1",
-    "nodemon": "^3.1.10",
     "ollama": "^0.5.16",
     "sharp": "^0.34.3",
     "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
