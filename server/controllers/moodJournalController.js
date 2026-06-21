@@ -24,7 +24,7 @@ export async function getAllMoods(req, res) {
 
 export async function getMood(req, res) {
   try {
-    const entry = await MoodJournal.getMood(req.params.id);
+    const entry = await MoodJournal.getMood(req.params.id, String(req.user._id));
     if (!entry) return res.status(404).json({ error: 'Entry not found' });
     res.json(entry);
   } catch (err) {
@@ -34,7 +34,7 @@ export async function getMood(req, res) {
 
 export async function updateMood(req, res) {
   try {
-    const entry = await MoodJournal.updateMood(req.params.id, req.body);
+    const entry = await MoodJournal.updateMood(req.params.id, String(req.user._id), req.body);
     if (!entry) return res.status(404).json({ error: 'Entry not found' });
     res.json(entry);
   } catch (err) {
@@ -44,7 +44,7 @@ export async function updateMood(req, res) {
 
 export async function deleteMood(req, res) {
   try {
-    const entry = await MoodJournal.deleteMood(req.params.id);
+    const entry = await MoodJournal.deleteMood(req.params.id, String(req.user._id));
     if (!entry) return res.status(404).json({ error: 'Entry not found' });
     res.json({ message: 'Entry deleted successfully' });
   } catch (err) {
@@ -53,7 +53,7 @@ export async function deleteMood(req, res) {
 }
 
 export async function generateMoodInsights(req, res) {
-  const user_id = req.params?.user_id;
+  const user_id = String(req.user._id);
   const { startDate, endDate } = req.body;
 
   if (!user_id || !startDate || !endDate) {

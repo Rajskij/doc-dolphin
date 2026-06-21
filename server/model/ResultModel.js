@@ -1,6 +1,4 @@
 import mongoose from 'mongoose';
-import { type } from 'os';
-import { title } from 'process';
 
 const schema = new mongoose.Schema({
     user_id: {
@@ -9,7 +7,7 @@ const schema = new mongoose.Schema({
     },
     title: {
         type: String,
-        default: 'Summery Report'
+        default: 'Summary Report'
     },
     report: {
         type: String,
@@ -19,8 +17,8 @@ const schema = new mongoose.Schema({
 
 schema.index({ user_id: 1 }); 
 
-schema.statics.deleteDoc = async function (_id) {
-    const result = await this.findOneAndDelete({ _id });
+schema.statics.deleteDoc = async function (_id, user_id) {
+    const result = await this.findOneAndDelete({ _id, user_id });
 
     if (!result) {
         throw Error("Result does not exist!");
@@ -34,8 +32,8 @@ schema.statics.createDoc = async function (user_id, report, title) {
     return result;
 }
 
-schema.statics.getResult = async function (_id) {
-    const result = await this.findOne({ _id });
+schema.statics.getResult = async function (_id, user_id) {
+    const result = await this.findOne({ _id, user_id });
 
     if (!result) {
         throw Error("Result does not exist!");
@@ -64,13 +62,13 @@ schema.statics.getResults = async function (user_id, page, limit) {
     return result;
 }
 
-schema.statics.updateDoc = async function (_id, title) {
+schema.statics.updateDoc = async function (_id, user_id, title) {
     if (typeof title !== 'string') {
         throw new Error("Title must be a string");
     }
 
     const result = await this.findOneAndUpdate(
-        { _id },
+        { _id, user_id },
         { title: title },
         { new: true, runValidators: true }
     )

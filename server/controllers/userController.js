@@ -6,8 +6,7 @@ function createToken(_id) {
 }
 
 async function getUsers(req, res) {
-    const users = await User.find();
-    res.status(200).json(users);
+    res.status(200).json({ id: req.user._id, fullName: req.user.fullName, email: req.user.email });
 }
 
 async function createUser(req, res) {
